@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Homestead Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #E4E2C9;
+    --ink: #22301C;
+    --rust: #B85C38;
+    --brick: #8C3B32;
+    --moss: #6B7F3F;
+    --sage: #93A868;
+    --wheat: #C79A3C;
+    --forest: #2E3B23;
+    --soil: #4A4430;
+    --card: #F1EFDD;
+    --line: 3px;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html {
+    color-scheme: light;
+    background: var(--paper);
+    min-height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Space Mono', monospace;
+    line-height: 1.6;
+    font-size: 16px;
+    min-height: 100vh;
+  }
+  h1, h2, h3 {
+    font-family: 'Archivo Black', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .hazard-bar {
+    height: 12px;
+    background: repeating-linear-gradient(45deg, var(--moss), var(--moss) 14px, var(--forest) 14px, var(--forest) 28px);
+  }
+  header.top {
+    background: var(--forest);
+    color: var(--card);
+    padding: 32px 18px 28px;
+    border-bottom: var(--line) solid var(--ink);
+  }
+  header.top .eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; color: var(--sage);
+    display: inline-block; border: 2px solid var(--sage); padding: 4px 9px; margin-bottom: 12px;
+  }
+  header.top h1 { font-size: clamp(28px, 9vw, 44px); margin: 0 0 8px; line-height: 1.05; }
+  header.top p.sub { max-width: 62ch; font-size: 13.5px; color: #DCD2BC; }
+
+  .ribbon-wrap { position: relative; overflow-x: auto; padding: 18px 18px; background: var(--paper); border-bottom: var(--line) solid var(--ink); -webkit-overflow-scrolling: touch; }
+  .ribbon-wrap::after {
+    content: "";
+    position: absolute; top: 0; right: 0; bottom: 0; width: 36px;
+    background: linear-gradient(to right, transparent, var(--paper));
+    pointer-events: none;
+  }
+  .scroll-hint { text-align: center; font-size: 9px; color: var(--soil); letter-spacing: 0.08em; padding: 0 18px 8px; background: var(--paper); }
+  .ribbon { display: flex; min-width: 760px; gap: 0; }
+  .node { flex: 1; text-align: center; position: relative; padding: 0 4px; cursor: pointer; }
+  .node .dot { width: 18px; height: 18px; background: var(--card); border: 3px solid var(--ink); margin: 0 auto 8px; position: relative; z-index: 2; }
+  .node.active .dot { background: var(--rust); }
+  .node.done .dot { background: var(--moss); }
+  .node .line { position: absolute; top: 8px; left: -50%; width: 100%; height: 3px; background: var(--ink); z-index: 1; }
+  .node:first-child .line { display: none; }
+  .node .label { font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.3; }
+  .node.active .label { color: var(--rust); }
+
+  main { max-width: 700px; margin: 0 auto; padding: 0 18px 70px; background: var(--paper); }
+  section.block { margin-top: 40px; background: var(--paper); }
+  section.block h2 {
+    font-size: 20px; background: var(--ink); color: var(--card);
+    display: inline-block; padding: 6px 14px 7px; margin: 0 0 18px;
+  }
+
+  /* Plan */
+  .phase-card {
+    background: var(--card); border: var(--line) solid var(--ink);
+    padding: 14px 16px; margin-bottom: 14px;
+    box-shadow: 5px 5px 0 var(--soil);
+  }
+  .phase-card .ph-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 0; cursor: pointer; }
+  .phase-card .ph-title { font-family: 'Archivo Black', sans-serif; font-size: 13.5px; line-height: 1.3; flex: 1; }
+  .phase-card .ph-status {
+    font-weight: 700; font-size: 9.5px; letter-spacing: 0.05em;
+    text-transform: uppercase; padding: 3px 8px; border: 2px solid var(--ink);
+    white-space: nowrap;
+  }
+  .phase-card .ph-chevron { font-size: 11px; color: var(--soil); transition: transform 0.15s; margin-left: 2px; }
+  .phase-card.expanded .ph-chevron { transform: rotate(90deg); }
+  .phase-card .ph-detail { max-height: 0; overflow: hidden; transition: max-height 0.18s ease; }
+  .phase-card.expanded .ph-detail { max-height: 200px; margin-top: 8px; }
+  .phase-card.flash { animation: flashHighlight 0.9s ease; }
+  @keyframes flashHighlight {
+    0% { box-shadow: 5px 5px 0 var(--soil), 0 0 0 4px var(--rust); }
+    100% { box-shadow: 5px 5px 0 var(--soil), 0 0 0 0 transparent; }
+  }
+  .st-not { background: var(--paper); }
+  .st-active { background: var(--rust); color: var(--card); }
+  .st-done { background: var(--moss); color: var(--card); }
+  .phase-card p { margin: 0; font-size: 12.5px; color: var(--soil); }
+  .section-controls { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+  .expand-toggle {
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.05em; text-transform: uppercase; background: var(--card);
+    border: 2px solid var(--ink); padding: 5px 10px; cursor: pointer; color: var(--ink);
+  }
+  .parallel-note {
+    background: var(--forest); color: var(--card); border: var(--line) solid var(--ink);
+    padding: 13px 15px; font-size: 12px; margin-top: 18px; box-shadow: 5px 5px 0 var(--soil);
+  }
+  .parallel-note strong { font-family: 'Archivo Black', sans-serif; display: block; margin-bottom: 6px; font-size: 11.5px; letter-spacing: 0.03em; color: var(--sage); }
+
+  /* Needs */
+  .needs-summary {
+    font-family: 'Archivo Black', sans-serif; font-size: 12px;
+    background: var(--ink); color: var(--wheat); padding: 10px 14px; margin-bottom: 18px;
+    display: inline-block;
+  }
+  .needs-cat { margin-bottom: 22px; border-left: var(--line) solid var(--moss); padding-left: 13px; background: var(--paper); }
+  .needs-cat h3 { font-size: 13px; margin-bottom: 3px; color: var(--ink); }
+  .needs-cat .cat-phase { font-size: 10px; color: var(--moss); font-weight: 700; letter-spacing: 0.03em; }
+  .need-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--card); border: 2px solid var(--ink);
+    padding: 9px 11px; margin-top: 9px;
+  }
+  .need-row .status-dot { width: 12px; height: 12px; border: 2px solid var(--ink); flex-shrink: 0; }
+  .need-row.need .status-dot { background: var(--rust); }
+  .need-row.have .status-dot { background: var(--moss); }
+  .need-row .nr-main { flex: 1; min-width: 0; }
+  .need-row .nr-name { font-weight: 700; font-size: 12.5px; }
+  .need-row .nr-note { font-size: 10.5px; color: var(--soil); margin-top: 2px; }
+  .need-row .nr-cost { font-size: 11px; font-weight: 700; color: var(--brick); white-space: nowrap; text-align: right; }
+  .need-row .nr-status-label { font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--soil); display: block; text-align: right; }
+
+  /* Parallel tracks — visual grid instead of paragraph */
+  .track-card {
+    background: var(--card); border: var(--line) solid var(--ink);
+    padding: 12px 14px; margin-bottom: 12px;
+    box-shadow: 4px 4px 0 var(--forest);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .track-card .tc-marker {
+    width: 14px; height: 14px; border: 2px solid var(--ink);
+    transform: rotate(45deg); flex-shrink: 0; margin-top: 3px;
+  }
+  .track-card.status-waiting .tc-marker { background: var(--wheat); }
+  .track-card.status-notstarted .tc-marker { background: var(--paper); }
+  .track-card.status-upcoming .tc-marker { background: var(--rust); }
+  .track-card .tc-main { flex: 1; }
+  .track-card .tc-head { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .track-card .tc-name { font-family: 'Archivo Black', sans-serif; font-size: 12.5px; margin-bottom: 3px; flex: 1; }
+  .track-card .tc-chevron { font-size: 10px; color: var(--soil); transition: transform 0.15s; }
+  .track-card.expanded .tc-chevron { transform: rotate(90deg); }
+  .track-card .tc-detail { max-height: 0; overflow: hidden; transition: max-height 0.18s ease; }
+  .track-card.expanded .tc-detail { max-height: 320px; }
+  .track-card .tc-timing { font-size: 11px; color: var(--soil); margin-bottom: 4px; margin-top: 6px; }
+  .track-card .tc-what { font-size: 10.5px; color: var(--ink); margin-bottom: 6px; line-height: 1.5; }
+  .track-card .tc-link, .phase-card a {
+    display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--brick);
+    text-decoration: underline; margin-top: 2px;
+  }
+  .track-card .tc-link { display: block; }
+  .track-card .tc-status {
+    font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    display: inline-block; padding: 2px 7px; border: 2px solid var(--ink);
+  }
+  .status-waiting .tc-status { background: var(--wheat); color: var(--ink); }
+  .status-notstarted .tc-status { background: var(--paper); }
+  .status-upcoming .tc-status { background: var(--rust); color: var(--card); }
+
+  /* Map */
+  .map-frame { border: var(--line) solid var(--ink); background: var(--card); box-shadow: 6px 6px 0 var(--soil); }
+  .map-caption { font-size: 11px; margin-top: 10px; color: var(--soil); }
+
+  /* Progress */
+  .progress-item { margin-bottom: 16px; }
+  .progress-item .pi-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font-size: 12px; margin-bottom: 6px; font-weight: 700; }
+  .progress-item .pi-top .pct { color: var(--moss); }
+  .bar-track { height: 12px; background: var(--card); border: 2px solid var(--ink); }
+  .bar-fill { height: 100%; background: repeating-linear-gradient(45deg, var(--moss), var(--moss) 7px, var(--forest) 7px, var(--forest) 14px); }
+
+  footer { text-align: center; padding: 24px 16px; font-size: 9.5px; border-top: var(--line) solid var(--ink); background: var(--forest); color: var(--sage); }
+
+  @media (min-width: 600px) {
+    header.top { padding: 44px 24px 40px; }
+    main { max-width: 900px; padding: 0 24px 90px; }
+    section.block h2 { font-size: 26px; }
+    .phase-card { padding: 16px 20px; }
+    .phase-card .ph-title { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <span class="eyebrow">Regenerative Homestead</span>
+  <h1>Homestead Plan</h1>
+  <p class="sub">6.99 acres — Zone 8a. This page tracks the plan, what's needed, the layout, and current progress. Updated by hand as work actually happens.</p>
+</header>
+
+<div class="hazard-bar"></div>
+
+<div class="ribbon-wrap">
+  <div class="ribbon" id="ribbon"></div>
+</div>
+<div class="scroll-hint">&#8596; SWIPE TO SEE ALL PHASES</div>
+
+<main>
+
+  <section class="block" id="progress">
+    <h2>Progress</h2>
+    <div id="progress-list"></div>
+  </section>
+
+  <section class="block" id="phases">
+    <h2>Phases</h2>
+    <div class="section-controls"><button class="expand-toggle" id="phases-toggle" onclick="toggleAll('phase-list','.phase-card','phases-toggle')">Expand All</button></div>
+    <div id="phase-list"></div>
+  </section>
+
+  <section class="block" id="goals">
+    <h2>Secondary Goals</h2>
+    <p style="font-size:11.5px; color:var(--soil); margin:0 0 14px;">Run on outside clocks, not the phase order above — happen whenever their own timing requires.</p>
+    <div class="section-controls"><button class="expand-toggle" id="goals-toggle" onclick="toggleAll('track-list','.track-card','goals-toggle')">Expand All</button></div>
+    <div id="track-list"></div>
+  </section>
+
+  <section class="block" id="needs">
+    <h2>List of Needs</h2>
+    <div id="needs-summary" class="needs-summary"></div>
+    <div id="needs-list"></div>
+  </section>
+</main>
+
+<footer>LAST UPDATED: SAMPLE DATA, NOT YET LIVE</footer>
+
+<script>
+  const PHASES = [
+    { id: "p0", name: "Phase 0 — Pre-Closing Prep", status: "active", note: "PWA build, content backlog, input sourcing — all underway now." },
+    { id: "p1", name: "Phase 1 — Closing Week", status: "not_started", note: 'FSA number (<a href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">find local office</a>), soil test (<a href="https://www.ncagr.gov/Divisions/Agronomic-Services/soil-testing" target="_blank" rel="noopener">NCDA&CS</a>), water test, farm status filings.' },
+    { id: "p2", name: "Phase 2 — Site Layout & Soil", status: "not_started", note: "Zone staking, biological rebuild begins." },
+    { id: "p3", name: "Phase 3 — Kitchen Garden", status: "not_started", note: "Raised bed rings, herbs, greens — feeding the household first." },
+    { id: "p4", name: "Phase 4 — Market Garden", status: "not_started", note: "Strawberries, peanuts, watermelon, cucumbers, hemp." },
+    { id: "p5", name: "Phase 5 — Orchard (parallel)", status: "not_started", note: "Bare-root planting, Dec–Feb dormant window." },
+    { id: "p6", name: "Phase 6 — Animals", status: "not_started", note: "Fencing first, then hens and rabbits." },
+    { id: "p7", name: "Phase 7 — Grants, Pond, Structures", status: "not_started", note: "Parallel track, mostly independent of the above." }
+  ];
+
+  const NEEDS = [
+    { name: "Soil & Bed Prep", phase: "Phase 2", items: [
+      {item:"Broadfork", status:"need", cost:"TBD", note:"Loosens soil without inverting it — core no-till tool"},
+      {item:"Digging fork", status:"need", cost:"TBD"},
+      {item:"Wheelbarrow (two-wheel)", status:"need", cost:"TBD", note:"Two-wheel for stability on sandy soil"},
+      {item:"Tarps", status:"need", cost:"TBD", note:"Solarizing/smothering, moving mulch"}
+    ]},
+    { name: "Weeding & Cultivation", phase: "Phase 3", items: [
+      {item:"Stirrup hoe", status:"need", cost:"TBD", note:"Highest-priority hand tool for this scale"},
+      {item:"Wheel hoe", status:"need", cost:"TBD", note:"Human-powered — replaces a gas tiller"}
+    ]},
+    { name: "Fencing & Infrastructure", phase: "Phase 6 pre-req", items: [
+      {item:"T-post pounder (manual)", status:"need", cost:"TBD"},
+      {item:"Fence pliers", status:"need", cost:"TBD", note:"Multi-function: cut, staple, stretch"},
+      {item:"Wire stretcher", status:"need", cost:"TBD"},
+      {item:"Electric fencing kit", status:"need", cost:"TBD", note:"Later — animal paddocks, after core perimeter fencing is in"}
+    ]},
+    { name: "Orchard", phase: "Phase 5", items: [
+      {item:"Bypass pruners", status:"need", cost:"TBD", note:"Buy quality — constant use across 5+ fruit varieties"},
+      {item:"Loppers", status:"need", cost:"TBD"},
+      {item:"Whetstone kit", status:"need", cost:"TBD", note:"Keep blades sharp — cheap insurance"}
+    ]},
+    { name: "Living Fence / Hedgerow", phase: "Dormant season — plant early", items: [
+      {item:"Willow whips/cuttings", status:"need", cost:"TBD", note:"Fast-growing living fence — plant alongside orchard bare-root window"},
+      {item:"Early dormant trees (boundary line)", status:"need", cost:"TBD", note:"Same dormant-season planting push as the orchard"}
+    ]},
+    { name: "Beekeeping — Honey Flow System", phase: "Phase 6 — apiary", items: [
+      {item:"Flow-style hive body + flow super", status:"need", cost:"TBD", note:"Taps honey without opening the hive"},
+      {item:"Brood box + deep frames/foundation", status:"need", cost:"TBD"},
+      {item:"Hive stand", status:"need", cost:"TBD"},
+      {item:"Bee suit & veil", status:"need", cost:"TBD"},
+      {item:"Smoker", status:"need", cost:"TBD"},
+      {item:"Hive tool", status:"need", cost:"TBD"}
+    ]},
+    { name: "DIY Utility Vehicle", phase: "Ongoing / opportunistic", items: [
+      {item:"Used riding lawnmower (ATV conversion)", status:"need", cost:"TBD", note:"Base vehicle for a DIY mini-ATV build"},
+      {item:"Pull-behind utility trailer", status:"need", cost:"TBD", note:"Hauling — feed, mulch, harvest loads"},
+      {item:"Trailer hitch mount (mower)", status:"need", cost:"TBD"}
+    ]}
+  ];
+
+  const PARALLEL_TRACKS = [
+    { name: "Orchard Bare-Root Planting", timing: "Locked to Dec–Feb dormant window", what: "Fruit and nut trees get planted while they're dormant for winter — it's the only window that works.", status: "upcoming" },
+    { name: "Willow & Living Fence Planting", timing: "Same dormant window — plant early alongside orchard", what: "Fast-growing willow cuttings planted now become a natural living fence line later.", status: "upcoming" },
+    { name: "Fruit Tree Ordering", timing: "Needs lead time — order months ahead of Dec–Feb", what: "Nurseries need advance orders — trees have to be reserved well before the planting window opens.", status: "waiting" },
+    { name: "NC AgVentures Grant", timing: "Application due October", what: "A North Carolina state grant program that helps new and existing farms fund equipment and infrastructure.", status: "notstarted", link: "https://agventures.ces.ncsu.edu/grant-program/", linkLabel: "NC AgVentures — official program page" },
+    { name: "EQIP (Wayne County NRCS)", timing: "Runs on the NRCS review cycle", what: "EQIP = Environmental Quality Incentives Program, a federal USDA cost-share program (via the Natural Resources Conservation Service) that pays toward conservation practices like soil health and water management.", status: "notstarted", link: "https://www.nrcs.usda.gov/programs-initiatives/environmental-quality-incentives-program", linkLabel: "EQIP — official USDA NRCS page" },
+    { name: "Hemp Licensing (USDA)", timing: "Independent processing time — start after FSA number", what: "Growing hemp legally requires a federal USDA license and a background check — separate from any state paperwork.", status: "notstarted", link: "https://www.farmers.gov/your-business/row-crops/hemp", linkLabel: "USDA hemp production — official page" },
+    { name: "Pond / Water Testing", timing: "Runs on agency timelines", what: "Water quality testing (and possible permitting) required before any pond construction or irrigation use.", status: "waiting", link: "https://www.farmers.gov/working-with-us/service-center-locator", linkLabel: "Find your local NRCS/Soil & Water office" }
+  ];
+
+  const statusLabel = { not_started: "Not Started", active: "In Progress", done: "Complete" };
+
+  const ribbon = document.getElementById("ribbon");
+  PHASES.forEach((p, i) => {
+    const cls = p.status === "done" ? "done" : p.status === "active" ? "active" : "";
+    ribbon.innerHTML += `<div class="node ${cls}" onclick="jumpToPhase(${i})"><div class="line"></div><div class="dot"></div><div class="label">${p.name.split("—")[0].trim()}</div></div>`;
+  });
+
+  const phaseList = document.getElementById("phase-list");
+  PHASES.forEach((p, i) => {
+    const stClass = p.status === "done" ? "st-done" : p.status === "active" ? "st-active" : "st-not";
+    phaseList.innerHTML += `
+      <div class="phase-card" id="phase-card-${i}">
+        <div class="ph-head" onclick="this.closest('.phase-card').classList.toggle('expanded')"><span class="ph-title">${p.name}</span><span class="ph-status ${stClass}">${statusLabel[p.status]}</span><span class="ph-chevron">&#9656;</span></div>
+        <div class="ph-detail"><p>${p.note}</p></div>
+      </div>`;
+  });
+
+  function jumpToPhase(i) {
+    const card = document.getElementById('phase-card-' + i);
+    card.classList.add('expanded');
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('flash');
+    setTimeout(() => card.classList.remove('flash'), 900);
+  }
+
+  const progressList = document.getElementById("progress-list");
+  const pct = { not_started: 0, active: 45, done: 100 };
+  PHASES.forEach(p => {
+    progressList.innerHTML += `
+      <div class="progress-item">
+        <div class="pi-top"><span>${p.name}</span><span class="pct">${pct[p.status]}%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct[p.status]}%"></div></div>
+      </div>`;
+  });
+
+  let total = 0, haveCount = 0;
+  const needsList = document.getElementById("needs-list");
+  NEEDS.forEach(cat => {
+    let rows = "";
+    cat.items.forEach(it => {
+      total++; if (it.status === "have") haveCount++;
+      rows += `
+        <div class="need-row ${it.status}">
+          <span class="status-dot"></span>
+          <div class="nr-main">
+            <div class="nr-name">${it.item}</div>
+            ${it.note ? `<div class="nr-note">${it.note}</div>` : ""}
+          </div>
+          <div>
+            <span class="nr-status-label">${it.status === "have" ? "Have" : "Need"}</span>
+            <span class="nr-cost">$${it.cost}</span>
+          </div>
+        </div>`;
+    });
+    needsList.innerHTML += `
+      <div class="needs-cat">
+        <h3>${cat.name}</h3>
+        <div class="cat-phase">${cat.phase}</div>
+        ${rows}
+      </div>`;
+  });
+  document.getElementById("needs-summary").textContent = `${haveCount} / ${total} ITEMS ACQUIRED — SAMPLE SUBSET SHOWN`;
+
+  const trackStatusLabel = { notstarted: "Not Started", waiting: "Waiting", upcoming: "Upcoming" };
+  const trackList = document.getElementById("track-list");
+  PARALLEL_TRACKS.forEach(t => {
+    trackList.innerHTML += `
+      <div class="track-card status-${t.status}">
+        <div class="tc-marker"></div>
+        <div class="tc-main">
+          <div class="tc-head" onclick="this.closest('.track-card').classList.toggle('expanded')"><span class="tc-name">${t.name}</span><span class="tc-status">${trackStatusLabel[t.status]}</span><span class="tc-chevron">&#9656;</span></div>
+          <div class="tc-detail">
+            <div class="tc-timing">${t.timing}</div>
+            <div class="tc-what">${t.what}</div>
+            ${t.link ? `<a class="tc-link" href="${t.link}" target="_blank" rel="noopener">&#8599; ${t.linkLabel}</a>` : ""}
+          </div>
+        </div>
+      </div>`;
+  });
+
+  function toggleAll(listId, cardSelector, btnId) {
+    const list = document.getElementById(listId);
+    const btn = document.getElementById(btnId);
+    const cards = list.querySelectorAll(cardSelector);
+    const anyCollapsed = Array.from(cards).some(c => !c.classList.contains('expanded'));
+    cards.forEach(c => c.classList.toggle('expanded', anyCollapsed));
+    btn.textContent = anyCollapsed ? 'Collapse All' : 'Expand All';
+  }
+</script>
+
+</body>
+</html>
