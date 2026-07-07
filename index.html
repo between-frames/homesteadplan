@@ -120,7 +120,10 @@
   .phase-card .ph-chevron { font-size: 11px; color: var(--soil); transition: transform 0.15s; margin-left: 2px; }
   .phase-card.expanded .ph-chevron { transform: rotate(90deg); }
   .phase-card .ph-detail { max-height: 0; overflow: hidden; transition: max-height 0.18s ease; }
-  .phase-card.expanded .ph-detail { max-height: 200px; margin-top: 8px; }
+  .phase-card.expanded .ph-detail { max-height: 400px; margin-top: 8px; }
+  .dep-line { font-size: 11px; line-height: 1.5; margin-top: 8px; color: var(--ink); }
+  .dep-line .dep-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; font-size: 9.5px; color: var(--soil); display: block; margin-bottom: 1px; }
+  .dep-line.unlocks .dep-label { color: var(--moss); }
   .phase-card.flash { animation: flashHighlight 0.9s ease; }
   @keyframes flashHighlight {
     0% { box-shadow: 5px 5px 0 var(--soil), 0 0 0 4px var(--rust); }
@@ -285,14 +288,14 @@
 
 <script>
   const PHASES = [
-    { id: "p0", name: "Phase 0 — Pre-Closing Prep", status: "active", note: "PWA build, content backlog, input sourcing — all underway now." },
-    { id: "p1", name: "Phase 1 — Closing Week", status: "not_started", note: 'FSA number (<a href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">find local office</a>), soil test (<a href="https://www.ncagr.gov/Divisions/Agronomic-Services/soil-testing" target="_blank" rel="noopener">NCDA&CS</a>), water test, farm status filings.' },
-    { id: "p2", name: "Phase 2 — Site Layout & Soil", status: "not_started", note: "Zone staking, biological rebuild begins." },
-    { id: "p3", name: "Phase 3 — Kitchen Garden", status: "not_started", note: "Raised bed rings, herbs, greens — feeding the household first." },
-    { id: "p4", name: "Phase 4 — Market Garden", status: "not_started", note: "Strawberries, peanuts, watermelon, cucumbers, hemp." },
-    { id: "p5", name: "Phase 5 — Orchard (parallel)", status: "not_started", note: "Bare-root planting, Dec–Feb dormant window." },
-    { id: "p6", name: "Phase 6 — Animals", status: "not_started", note: "Fencing first, then hens and rabbits (Year One core plan). Bees/honey flow are a later contingency — not part of the original Year-One roster, added opportunistically once core animals are established and fencing/time allow." },
-    { id: "p7", name: "Phase 7 — Grants, Pond, Structures", status: "not_started", note: "Parallel track, mostly independent of the above." }
+    { id: "p0", name: "Phase 0 — Pre-Closing Prep", status: "active", note: "PWA build, content backlog, input sourcing — all underway now.", dependsOn: "Nothing — all doable before closing.", unlocks: "Everything downstream once the land closes." },
+    { id: "p1", name: "Phase 1 — Closing Week", status: "not_started", note: 'FSA number (<a href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">find local office</a>), soil test (<a href="https://www.ncagr.gov/Divisions/Agronomic-Services/soil-testing" target="_blank" rel="noopener">NCDA&CS</a>), water test, farm status filings.', dependsOn: "Closing on the land.", unlocks: "The FSA number is the key unlock — it opens grants (AgVentures, EQIP) and hemp licensing immediately, without waiting for later phases. Soil test unlocks the biological input order; water test unlocks pond buffer planting." },
+    { id: "p2", name: "Phase 2 — Site Layout & Soil", status: "not_started", note: "Zone staking, biological rebuild begins.", dependsOn: "Soil test results (Phase 1).", unlocks: "All planting — nothing goes in the ground until zones are staked." },
+    { id: "p3", name: "Phase 3 — Kitchen Garden", status: "not_started", note: "Raised bed rings, herbs, greens — feeding the household first.", dependsOn: "Site staking (Phase 2).", unlocks: "Household food self-sufficiency — the first priority before market or animal income." },
+    { id: "p4", name: "Phase 4 — Market Garden", status: "not_started", note: "Strawberries, peanuts, watermelon, cucumbers, hemp.", dependsOn: "Site staking (Phase 2). Strawberries are October-locked; hemp needs the USDA license (started back in Phase 1).", unlocks: "First external/market income." },
+    { id: "p5", name: "Phase 5 — Orchard (parallel)", status: "not_started", note: "Bare-root planting, Dec–Feb dormant window.", dependsOn: "Trees ordered months ahead (see Secondary Goals). Calendar-locked to Dec–Feb — runs parallel, ignores phase order.", unlocks: "Long-term perennial food + the strongest long-run crop value." },
+    { id: "p6", name: "Phase 6 — Animals", status: "not_started", note: "Fencing must come first, then the Year-One roster: laying hens, rabbits, and honeybees. Hens and rabbits go in once fencing and shelter are ready; bees install in spring, need hive equipment in hand beforehand, and do best once some pollinator/forage plantings are established.", dependsOn: "Fencing + shelter built first. Bees additionally want spring timing + some forage plantings in the ground.", unlocks: "Eggs, meat, honey, and pollination for the whole system." },
+    { id: "p7", name: "Phase 7 — Grants, Pond, Structures", status: "not_started", note: "Grants and hemp are NOT actually 'last' — they unlock at the FSA number (Phase 1) and run on their own deadlines. Pond waits on the water test. Structures are capital-dependent, whenever budget allows.", dependsOn: "Grants/hemp: just the FSA number (Phase 1) + their deadlines. Pond: water test clearance. Structures: budget.", unlocks: "Funding, water infrastructure, and built space — several pieces can start far earlier than the phase number suggests." }
   ];
 
   const NEEDS = [
@@ -321,7 +324,7 @@
       {item:"Willow whips/cuttings", status:"need", cost:"30–80", note:"Fast-growing living fence — plant alongside orchard bare-root window"},
       {item:"Early dormant trees (boundary line)", status:"need", cost:"30–60 each", note:"Same dormant-season planting push as the orchard"}
     ]},
-    { name: "Beekeeping — Honey Flow System", phase: "Phase 6 — apiary, later contingency", items: [
+    { name: "Beekeeping — Honey Flow System", phase: "Phase 6 — apiary (spring install)", items: [
       {item:"Flow-style hive body + flow super", status:"need", cost:"300–700", note:"Taps honey without opening the hive — budget flow-style kits run ~$300, official Flow Hive bundles ~$700+"},
       {item:"Brood box + deep frames/foundation", status:"need", cost:"60–120"},
       {item:"Hive stand", status:"need", cost:"30–60"},
@@ -360,7 +363,11 @@
     phaseList.innerHTML += `
       <div class="phase-card" id="phase-card-${i}">
         <div class="ph-head" onclick="this.closest('.phase-card').classList.toggle('expanded')"><span class="ph-title">${p.name}</span><span class="ph-status ${stClass}">${statusLabel[p.status]}</span><span class="ph-chevron">&#9656;</span></div>
-        <div class="ph-detail"><p>${p.note}</p></div>
+        <div class="ph-detail">
+          <p>${p.note}</p>
+          ${p.dependsOn ? `<div class="dep-line"><span class="dep-label">&#8627; Depends on</span> ${p.dependsOn}</div>` : ""}
+          ${p.unlocks ? `<div class="dep-line unlocks"><span class="dep-label">&#8599; Unlocks</span> ${p.unlocks}</div>` : ""}
+        </div>
       </div>`;
   });
 
