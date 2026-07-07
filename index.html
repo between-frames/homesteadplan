@@ -254,55 +254,55 @@
     { id: "p3", name: "Phase 3 — Kitchen Garden", status: "not_started", note: "Raised bed rings, herbs, greens — feeding the household first." },
     { id: "p4", name: "Phase 4 — Market Garden", status: "not_started", note: "Strawberries, peanuts, watermelon, cucumbers, hemp." },
     { id: "p5", name: "Phase 5 — Orchard (parallel)", status: "not_started", note: "Bare-root planting, Dec–Feb dormant window." },
-    { id: "p6", name: "Phase 6 — Animals", status: "not_started", note: "Fencing first, then hens and rabbits." },
+    { id: "p6", name: "Phase 6 — Animals", status: "not_started", note: "Fencing first, then hens and rabbits (Year One core plan). Bees/honey flow are a later contingency — not part of the original Year-One roster, added opportunistically once core animals are established and fencing/time allow." },
     { id: "p7", name: "Phase 7 — Grants, Pond, Structures", status: "not_started", note: "Parallel track, mostly independent of the above." }
   ];
 
   const NEEDS = [
     { name: "Soil & Bed Prep", phase: "Phase 2", items: [
-      {item:"Broadfork", status:"need", cost:"TBD", note:"Loosens soil without inverting it — core no-till tool"},
-      {item:"Digging fork", status:"need", cost:"TBD"},
-      {item:"Wheelbarrow (two-wheel)", status:"need", cost:"TBD", note:"Two-wheel for stability on sandy soil"},
-      {item:"Tarps", status:"need", cost:"TBD", note:"Solarizing/smothering, moving mulch"}
+      {item:"Broadfork", status:"need", cost:"150–250", note:"Loosens soil without inverting it — core no-till tool"},
+      {item:"Digging fork", status:"need", cost:"30–50"},
+      {item:"Wheelbarrow (two-wheel)", status:"need", cost:"80–150", note:"Two-wheel for stability on sandy soil"},
+      {item:"Tarps", status:"need", cost:"30–60", note:"Solarizing/smothering, moving mulch"}
     ]},
     { name: "Weeding & Cultivation", phase: "Phase 3", items: [
-      {item:"Stirrup hoe", status:"need", cost:"TBD", note:"Highest-priority hand tool for this scale"},
-      {item:"Wheel hoe", status:"need", cost:"TBD", note:"Human-powered — replaces a gas tiller"}
+      {item:"Stirrup hoe", status:"need", cost:"40–110", note:"Highest-priority hand tool for this scale"},
+      {item:"Wheel hoe", status:"need", cost:"300–400", note:"Human-powered — replaces a gas tiller"}
     ]},
     { name: "Fencing & Infrastructure", phase: "Phase 6 pre-req", items: [
-      {item:"T-post pounder (manual)", status:"need", cost:"TBD"},
-      {item:"Fence pliers", status:"need", cost:"TBD", note:"Multi-function: cut, staple, stretch"},
-      {item:"Wire stretcher", status:"need", cost:"TBD"},
-      {item:"Electric fencing kit", status:"need", cost:"TBD", note:"Later — animal paddocks, after core perimeter fencing is in"}
+      {item:"T-post pounder (manual)", status:"need", cost:"40–70"},
+      {item:"Fence pliers", status:"need", cost:"25–40", note:"Multi-function: cut, staple, stretch"},
+      {item:"Wire stretcher", status:"need", cost:"40–80"},
+      {item:"Electric fencing kit", status:"need", cost:"150–400", note:"Later — animal paddocks, after core perimeter fencing is in"}
     ]},
     { name: "Orchard", phase: "Phase 5", items: [
-      {item:"Bypass pruners", status:"need", cost:"TBD", note:"Buy quality — constant use across 5+ fruit varieties"},
-      {item:"Loppers", status:"need", cost:"TBD"},
-      {item:"Whetstone kit", status:"need", cost:"TBD", note:"Keep blades sharp — cheap insurance"}
+      {item:"Bypass pruners", status:"need", cost:"30–80", note:"Buy quality — constant use across 5+ fruit varieties"},
+      {item:"Loppers", status:"need", cost:"40–70"},
+      {item:"Whetstone kit", status:"need", cost:"20–40", note:"Keep blades sharp — cheap insurance"}
     ]},
     { name: "Living Fence / Hedgerow", phase: "Dormant season — plant early", items: [
-      {item:"Willow whips/cuttings", status:"need", cost:"TBD", note:"Fast-growing living fence — plant alongside orchard bare-root window"},
-      {item:"Early dormant trees (boundary line)", status:"need", cost:"TBD", note:"Same dormant-season planting push as the orchard"}
+      {item:"Willow whips/cuttings", status:"need", cost:"30–80", note:"Fast-growing living fence — plant alongside orchard bare-root window"},
+      {item:"Early dormant trees (boundary line)", status:"need", cost:"30–60 each", note:"Same dormant-season planting push as the orchard"}
     ]},
-    { name: "Beekeeping — Honey Flow System", phase: "Phase 6 — apiary", items: [
-      {item:"Flow-style hive body + flow super", status:"need", cost:"TBD", note:"Taps honey without opening the hive"},
-      {item:"Brood box + deep frames/foundation", status:"need", cost:"TBD"},
-      {item:"Hive stand", status:"need", cost:"TBD"},
-      {item:"Bee suit & veil", status:"need", cost:"TBD"},
-      {item:"Smoker", status:"need", cost:"TBD"},
-      {item:"Hive tool", status:"need", cost:"TBD"}
+    { name: "Beekeeping — Honey Flow System", phase: "Phase 6 — apiary, later contingency", items: [
+      {item:"Flow-style hive body + flow super", status:"need", cost:"300–700", note:"Taps honey without opening the hive — budget flow-style kits run ~$300, official Flow Hive bundles ~$700+"},
+      {item:"Brood box + deep frames/foundation", status:"need", cost:"60–120"},
+      {item:"Hive stand", status:"need", cost:"30–60"},
+      {item:"Bee suit & veil", status:"need", cost:"50–100"},
+      {item:"Smoker", status:"need", cost:"25–40"},
+      {item:"Hive tool", status:"need", cost:"10–15"}
     ]},
     { name: "DIY Utility Vehicle", phase: "Ongoing / opportunistic", items: [
-      {item:"Used riding lawnmower (ATV conversion)", status:"need", cost:"TBD", note:"Base vehicle for a DIY mini-ATV build"},
-      {item:"Pull-behind utility trailer", status:"need", cost:"TBD", note:"Hauling — feed, mulch, harvest loads"},
-      {item:"Trailer hitch mount (mower)", status:"need", cost:"TBD"}
+      {item:"Used riding lawnmower (ATV conversion)", status:"need", cost:"200–600", note:"Base vehicle for a DIY mini-ATV build — used market, highly variable"},
+      {item:"Pull-behind utility trailer", status:"need", cost:"150–400", note:"Hauling — feed, mulch, harvest loads"},
+      {item:"Trailer hitch mount (mower)", status:"need", cost:"30–60"}
     ]}
   ];
 
   const PARALLEL_TRACKS = [
     { name: "Orchard Bare-Root Planting", timing: "Locked to Dec–Feb dormant window", what: "Fruit and nut trees get planted while they're dormant for winter — it's the only window that works.", status: "upcoming" },
     { name: "Willow & Living Fence Planting", timing: "Same dormant window — plant early alongside orchard", what: "Fast-growing willow cuttings planted now become a natural living fence line later.", status: "upcoming" },
-    { name: "Fruit Tree Ordering", timing: "Needs lead time — order months ahead of Dec–Feb", what: "Nurseries need advance orders — trees have to be reserved well before the planting window opens.", status: "waiting" },
+    { name: "Fruit Tree Ordering", timing: "Needs lead time — order months ahead of Dec–Feb", what: "Nurseries need advance orders — trees have to be reserved well before the planting window opens. Roots to Fruits Nursery carries Redhaven, Contender, and Cresthaven bare-root (Contender is an NC State-bred variety, bred specifically for late bloom/frost avoidance). Cummins Nursery carries Carolina Belle on nematode-resistant rootstock, also confirms NCSU origin and 750 chill hours. Norman is the hardest of the five to source — not found at major online nurseries; likely needs a direct call to a NC-based nursery or NC State's Sandhills Research Station.", status: "waiting", link: "https://rootstofruitsnursery.com/collections/cold-hardy-peach-trees", linkLabel: "Roots to Fruits — cold-hardy peach collection" },
     { name: "NC AgVentures Grant", timing: "Application due October", what: "A North Carolina state grant program that helps new and existing farms fund equipment and infrastructure.", status: "notstarted", link: "https://agventures.ces.ncsu.edu/grant-program/", linkLabel: "NC AgVentures — official program page" },
     { name: "EQIP (Wayne County NRCS)", timing: "Runs on the NRCS review cycle", what: "EQIP = Environmental Quality Incentives Program, a federal USDA cost-share program (via the Natural Resources Conservation Service) that pays toward conservation practices like soil health and water management.", status: "notstarted", link: "https://www.nrcs.usda.gov/programs-initiatives/environmental-quality-incentives-program", linkLabel: "EQIP — official USDA NRCS page" },
     { name: "Hemp Licensing (USDA)", timing: "Independent processing time — start after FSA number", what: "Growing hemp legally requires a federal USDA license and a background check — separate from any state paperwork.", status: "notstarted", link: "https://www.farmers.gov/your-business/row-crops/hemp", linkLabel: "USDA hemp production — official page" },
