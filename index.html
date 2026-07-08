@@ -120,10 +120,11 @@
   .phase-card .ph-chevron { font-size: 11px; color: var(--soil); transition: transform 0.15s; margin-left: 2px; }
   .phase-card.expanded .ph-chevron { transform: rotate(90deg); }
   .phase-card .ph-detail { max-height: 0; overflow: hidden; transition: max-height 0.18s ease; }
-  .phase-card.expanded .ph-detail { max-height: 400px; margin-top: 8px; }
+  .phase-card.expanded .ph-detail { max-height: 480px; margin-top: 8px; }
   .dep-line { font-size: 11px; line-height: 1.5; margin-top: 8px; color: var(--ink); }
   .dep-line .dep-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; font-size: 9.5px; color: var(--soil); display: block; margin-bottom: 1px; }
   .dep-line.unlocks .dep-label { color: var(--moss); }
+  .dep-line.powersup .dep-label { color: var(--rust); font-size: 10px; }
   .phase-card { cursor: pointer; transition: box-shadow 0.12s, transform 0.12s; }
   .phase-card:hover { box-shadow: 7px 7px 0 var(--soil); transform: translate(-1px, -1px); }
   .phase-card .ph-open { font-size: 15px; color: var(--rust); font-weight: 700; margin-left: 2px; line-height: 1; }
@@ -344,12 +345,12 @@
 
 <script>
   const PHASES = [
-    { id: "p0", name: "Phase 0 — Pre-Closing Prep", status: "active", note: "PWA build, content backlog, input sourcing — all underway now.", dependsOn: "Nothing — all doable before closing.", unlocks: "Everything downstream once the land closes." },
-    { id: "p1", name: "Phase 1 — Closing Week", status: "not_started", note: 'FSA number (<a href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">find local office</a>), soil test (<a href="https://www.ncagr.gov/Divisions/Agronomic-Services/soil-testing" target="_blank" rel="noopener">NCDA&CS</a>), water test, farm status filings.', dependsOn: "Closing on the land.", unlocks: "The FSA number is the key unlock — it opens grants (AgVentures, EQIP) and hemp licensing immediately, without waiting for later phases. Soil test unlocks the biological input order; water test unlocks pond buffer planting." },
-    { id: "p2", name: "Phase 2 — Site Layout & Soil", status: "not_started", note: "Zone staking, biological rebuild begins.", dependsOn: "Soil test results (Phase 1).", unlocks: "All planting — nothing goes in the ground until zones are staked." },
+    { id: "p0", name: "Phase 0 — Pre-Closing Prep", status: "active", note: "PWA build, content backlog, input sourcing — all underway now.", dependsOn: "Nothing — all doable before closing.", unlocks: "Everything downstream once the land closes.", powersUp: "🌱 Powers up: Fruit Tree Ordering (order months ahead of the winter planting window)." },
+    { id: "p1", name: "Phase 1 — Closing Week", status: "not_started", note: 'FSA number (<a href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">find local office</a>), soil test (<a href="https://www.ncagr.gov/Divisions/Agronomic-Services/soil-testing" target="_blank" rel="noopener">NCDA&CS</a>), water test, farm status filings.', dependsOn: "Closing on the land.", unlocks: "The FSA number is the key unlock — it opens grants (AgVentures, EQIP) and hemp licensing immediately, without waiting for later phases. Soil test unlocks the biological input order; water test unlocks pond buffer planting.", powersUp: "⚡ Powers up: NC AgVentures + EQIP grants, Hemp licensing, and Pond/Water testing — all switch on the moment the FSA number exists." },
+    { id: "p2", name: "Phase 2 — Site Layout & Soil", status: "not_started", note: "Zone staking, biological rebuild begins.", dependsOn: "Soil test results (Phase 1).", unlocks: "All planting — nothing goes in the ground until zones are staked.", powersUp: "🌱 Powers up: every planting phase — the whole map goes live once zones are staked." },
     { id: "p3", name: "Phase 3 — Kitchen Garden", status: "not_started", note: "Raised bed rings, herbs, greens — feeding the household first.", dependsOn: "Site staking (Phase 2).", unlocks: "Household food self-sufficiency — the first priority before market or animal income." },
     { id: "p4", name: "Phase 4 — Market Garden", status: "not_started", note: "Strawberries, peanuts, watermelon, cucumbers, hemp.", dependsOn: "Site staking (Phase 2). Strawberries are October-locked; hemp needs the USDA license (started back in Phase 1).", unlocks: "First external/market income." },
-    { id: "p5", name: "Phase 5 — Orchard (parallel)", status: "not_started", note: "Bare-root planting, Dec–Feb dormant window.", dependsOn: "Trees ordered months ahead (see Secondary Goals). Calendar-locked to Dec–Feb — runs parallel, ignores phase order.", unlocks: "Long-term perennial food + the strongest long-run crop value." },
+    { id: "p5", name: "Phase 5 — Orchard (parallel)", status: "not_started", note: "Bare-root planting, Dec–Feb dormant window.", dependsOn: "Trees ordered months ahead (see Secondary Goals). Calendar-locked to Dec–Feb — runs parallel, ignores phase order.", unlocks: "Long-term perennial food + the strongest long-run crop value.", powersUp: "🌲 Powers up: the Orchard bare-root + Willow/living fence planting — this IS the Dec–Feb execution window those goals were waiting for." },
     { id: "p6", name: "Phase 6 — Animals", status: "not_started", note: "Fencing must come first, then the Year-One roster: laying hens, rabbits, and honeybees. Hens and rabbits go in once fencing and shelter are ready; bees install in spring, need hive equipment in hand beforehand, and do best once some pollinator/forage plantings are established.", dependsOn: "Fencing + shelter built first. Bees additionally want spring timing + some forage plantings in the ground.", unlocks: "Eggs, meat, honey, and pollination for the whole system." },
     { id: "p7", name: "Phase 7 — Grants, Pond, Structures", status: "not_started", note: "Grants and hemp are NOT actually 'last' — they unlock at the FSA number (Phase 1) and run on their own deadlines. Pond waits on the water test. Structures are capital-dependent, whenever budget allows.", dependsOn: "Grants/hemp: just the FSA number (Phase 1) + their deadlines. Pond: water test clearance. Structures: budget.", unlocks: "Funding, water infrastructure, and built space — several pieces can start far earlier than the phase number suggests." }
   ];
@@ -479,6 +480,7 @@
         <p class="m-note">${p.note}</p>
         ${p.dependsOn ? `<div class="dep-line"><span class="dep-label">&#8627; Depends on</span> ${p.dependsOn}</div>` : ""}
         ${p.unlocks ? `<div class="dep-line unlocks"><span class="dep-label">&#8599; Unlocks</span> ${p.unlocks}</div>` : ""}
+        ${p.powersUp ? `<div class="dep-line powersup"><span class="dep-label">${p.powersUp}</span></div>` : ""}
         <div class="modal-section-title">Tools &amp; Supplies</div>
         ${needsHtml}
         <div class="modal-section-title">Related Goals</div>
