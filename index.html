@@ -124,6 +124,9 @@
   .dep-line { font-size: 11px; line-height: 1.5; margin-top: 8px; color: var(--ink); }
   .dep-line .dep-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; font-size: 9.5px; color: var(--soil); display: block; margin-bottom: 1px; }
   .dep-line.unlocks .dep-label { color: var(--moss); }
+  .phase-card { cursor: pointer; transition: box-shadow 0.12s, transform 0.12s; }
+  .phase-card:hover { box-shadow: 7px 7px 0 var(--soil); transform: translate(-1px, -1px); }
+  .phase-card .ph-open { font-size: 15px; color: var(--rust); font-weight: 700; margin-left: 2px; line-height: 1; }
   .phase-card.flash { animation: flashHighlight 0.9s ease; }
   @keyframes flashHighlight {
     0% { box-shadow: 5px 5px 0 var(--soil), 0 0 0 4px var(--rust); }
@@ -222,6 +225,55 @@
   .bar-track { height: 12px; background: var(--card); border: 2px solid var(--ink); }
   .bar-fill { height: 100%; background: repeating-linear-gradient(45deg, var(--moss), var(--moss) 7px, var(--forest) 7px, var(--forest) 14px); }
 
+  /* Phase modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(20, 26, 16, 0.74);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 22px 12px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-panel {
+    background: var(--paper); border: var(--line) solid var(--ink);
+    box-shadow: 8px 8px 0 var(--soil);
+    width: 100%; max-width: 640px; margin: auto;
+    max-height: calc(100vh - 44px); overflow-y: auto; -webkit-overflow-scrolling: touch;
+  }
+  .modal-head {
+    position: sticky; top: 0; z-index: 2;
+    background: var(--forest); color: var(--card);
+    padding: 15px 16px; display: flex; align-items: flex-start; gap: 10px;
+    border-bottom: var(--line) solid var(--ink);
+  }
+  .modal-head .mh-title { font-family: 'Archivo Black', sans-serif; text-transform: uppercase; font-size: 15px; line-height: 1.15; flex: 1; }
+  .modal-head .mh-status {
+    font-weight: 700; font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 3px 7px; border: 2px solid var(--ink); white-space: nowrap; align-self: center;
+  }
+  .modal-close {
+    background: var(--rust); color: var(--card); border: 2px solid var(--ink);
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px;
+    width: 28px; height: 28px; line-height: 1; cursor: pointer; flex-shrink: 0; padding: 0;
+  }
+  .modal-body { padding: 15px 16px 22px; }
+  .modal-body .m-note { font-size: 12.5px; color: var(--soil); margin: 0 0 6px; }
+  .modal-section-title {
+    font-family: 'Archivo Black', sans-serif; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.04em; background: var(--ink); color: var(--wheat);
+    display: inline-block; padding: 5px 10px; margin: 22px 0 10px;
+  }
+  .m-empty { font-size: 11.5px; color: var(--soil); font-style: italic; }
+  .m-need-cat { font-size: 11px; font-weight: 700; color: var(--moss); letter-spacing: 0.02em; margin: 14px 0 4px; }
+  .m-need-cat:first-of-type { margin-top: 2px; }
+  .m-goal { border: 2px solid var(--ink); background: var(--card); padding: 9px 11px; margin-top: 9px; }
+  .m-goal .mg-name { font-family: 'Archivo Black', sans-serif; font-size: 11.5px; }
+  .m-goal .mg-timing { font-size: 10.5px; color: var(--soil); margin-top: 3px; }
+  .m-goal .mg-status { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 7px; border: 2px solid var(--ink); display: inline-block; margin-top: 6px; }
+  .m-goal.status-waiting .mg-status { background: var(--wheat); color: var(--ink); }
+  .m-goal.status-notstarted .mg-status { background: var(--paper); }
+  .m-goal.status-upcoming .mg-status { background: var(--rust); color: var(--card); }
+  .m-goal a { display: block; font-size: 10.5px; font-weight: 700; color: var(--brick); text-decoration: underline; margin-top: 6px; }
+
   footer { text-align: center; padding: 24px 16px; font-size: 9.5px; border-top: var(--line) solid var(--ink); background: var(--forest); color: var(--sage); }
 
   @media (min-width: 600px) {
@@ -265,7 +317,7 @@
 
   <section class="block" id="phases">
     <h2>Phases</h2>
-    <div class="section-controls"><button class="expand-toggle" id="phases-toggle" onclick="toggleAll('phase-list','.phase-card','phases-toggle')">Expand All</button></div>
+    <p style="font-size:11.5px; color:var(--soil); margin:0 0 14px;">Tap any phase &#8853; (or a dot on the timeline above) to see its full detail, the tools it needs, and the goals tied to it.</p>
     <div id="phase-list"></div>
   </section>
 
@@ -284,6 +336,10 @@
   </section>
 </main>
 
+<div class="modal-overlay" id="phase-modal" role="dialog" aria-modal="true">
+  <div class="modal-panel" id="phase-modal-panel"></div>
+</div>
+
 <footer>LAST UPDATED: SAMPLE DATA, NOT YET LIVE</footer>
 
 <script>
@@ -299,32 +355,32 @@
   ];
 
   const NEEDS = [
-    { name: "Soil & Bed Prep", phase: "Phase 2", items: [
+    { name: "Soil & Bed Prep", phases: [2], phase: "Phase 2", items: [
       {item:"Broadfork", status:"need", cost:"150–250", note:"Loosens soil without inverting it — core no-till tool"},
       {item:"Digging fork", status:"need", cost:"30–50"},
       {item:"Wheelbarrow (two-wheel)", status:"need", cost:"80–150", note:"Two-wheel for stability on sandy soil"},
       {item:"Tarps", status:"need", cost:"30–60", note:"Solarizing/smothering, moving mulch"}
     ]},
-    { name: "Weeding & Cultivation", phase: "Phase 3", items: [
+    { name: "Weeding & Cultivation", phases: [3], phase: "Phase 3", items: [
       {item:"Stirrup hoe", status:"need", cost:"40–110", note:"Highest-priority hand tool for this scale"},
       {item:"Wheel hoe", status:"need", cost:"300–400", note:"Human-powered — replaces a gas tiller"}
     ]},
-    { name: "Fencing & Infrastructure", phase: "Phase 6 pre-req", items: [
+    { name: "Fencing & Infrastructure", phases: [6], phase: "Phase 6 pre-req", items: [
       {item:"T-post pounder (manual)", status:"need", cost:"40–70"},
       {item:"Fence pliers", status:"need", cost:"25–40", note:"Multi-function: cut, staple, stretch"},
       {item:"Wire stretcher", status:"need", cost:"40–80"},
       {item:"Electric fencing kit", status:"need", cost:"150–400", note:"Later — animal paddocks, after core perimeter fencing is in"}
     ]},
-    { name: "Orchard", phase: "Phase 5", items: [
+    { name: "Orchard", phases: [5], phase: "Phase 5", items: [
       {item:"Bypass pruners", status:"need", cost:"30–80", note:"Buy quality — constant use across 5+ fruit varieties"},
       {item:"Loppers", status:"need", cost:"40–70"},
       {item:"Whetstone kit", status:"need", cost:"20–40", note:"Keep blades sharp — cheap insurance"}
     ]},
-    { name: "Living Fence / Hedgerow", phase: "Dormant season — plant early", items: [
+    { name: "Living Fence / Hedgerow", phases: [5], phase: "Dormant season — plant early", items: [
       {item:"Willow whips/cuttings", status:"need", cost:"30–80", note:"Fast-growing living fence — plant alongside orchard bare-root window"},
       {item:"Early dormant trees (boundary line)", status:"need", cost:"30–60 each", note:"Same dormant-season planting push as the orchard"}
     ]},
-    { name: "Beekeeping — Honey Flow System", phase: "Phase 6 — apiary (spring install)", items: [
+    { name: "Beekeeping — Honey Flow System", phases: [6], phase: "Phase 6 — apiary (spring install)", items: [
       {item:"Flow-style hive body + flow super", status:"need", cost:"300–700", note:"Taps honey without opening the hive — budget flow-style kits run ~$300, official Flow Hive bundles ~$700+"},
       {item:"Brood box + deep frames/foundation", status:"need", cost:"60–120"},
       {item:"Hive stand", status:"need", cost:"30–60"},
@@ -332,7 +388,7 @@
       {item:"Smoker", status:"need", cost:"25–40"},
       {item:"Hive tool", status:"need", cost:"10–15"}
     ]},
-    { name: "DIY Utility Vehicle", phase: "Ongoing / opportunistic", items: [
+    { name: "DIY Utility Vehicle", phases: [], phase: "Ongoing / opportunistic", items: [
       {item:"Used riding lawnmower (ATV conversion)", status:"need", cost:"200–600", note:"Base vehicle for a DIY mini-ATV build — used market, highly variable"},
       {item:"Pull-behind utility trailer", status:"need", cost:"150–400", note:"Hauling — feed, mulch, harvest loads"},
       {item:"Trailer hitch mount (mower)", status:"need", cost:"30–60"}
@@ -340,13 +396,13 @@
   ];
 
   const PARALLEL_TRACKS = [
-    { name: "Orchard Bare-Root Planting", timing: "Locked to Dec–Feb dormant window", what: "Fruit and nut trees get planted while they're dormant for winter — it's the only window that works.", status: "upcoming" },
-    { name: "Willow & Living Fence Planting", timing: "Same dormant window — plant early alongside orchard", what: "Fast-growing willow cuttings planted now become a natural living fence line later.", status: "upcoming" },
-    { name: "Fruit Tree Ordering", timing: "Needs lead time — order months ahead of Dec–Feb", what: "Nurseries need advance orders — trees have to be reserved well before the planting window opens. Roots to Fruits Nursery carries Redhaven, Contender, and Cresthaven bare-root (Contender is an NC State-bred variety, bred specifically for late bloom/frost avoidance). Cummins Nursery carries Carolina Belle on nematode-resistant rootstock, also confirms NCSU origin and 750 chill hours. Norman is the hardest of the five to source — not found at major online nurseries; likely needs a direct call to a NC-based nursery or NC State's Sandhills Research Station.", status: "waiting", link: "https://rootstofruitsnursery.com/collections/cold-hardy-peach-trees", linkLabel: "Roots to Fruits — cold-hardy peach collection" },
-    { name: "NC AgVentures Grant", timing: "Application due October", what: "A North Carolina state grant program that helps new and existing farms fund equipment and infrastructure.", status: "notstarted", link: "https://agventures.ces.ncsu.edu/grant-program/", linkLabel: "NC AgVentures — official program page" },
-    { name: "EQIP (Wayne County NRCS)", timing: "Runs on the NRCS review cycle", what: "EQIP = Environmental Quality Incentives Program, a federal USDA cost-share program (via the Natural Resources Conservation Service) that pays toward conservation practices like soil health and water management.", status: "notstarted", link: "https://www.nrcs.usda.gov/programs-initiatives/environmental-quality-incentives-program", linkLabel: "EQIP — official USDA NRCS page" },
-    { name: "Hemp Licensing (USDA)", timing: "Independent processing time — start after FSA number", what: "Growing hemp legally requires a federal USDA license and a background check — separate from any state paperwork.", status: "notstarted", link: "https://www.farmers.gov/your-business/row-crops/hemp", linkLabel: "USDA hemp production — official page" },
-    { name: "Pond / Water Testing", timing: "Runs on agency timelines", what: "Water quality testing (and possible permitting) required before any pond construction or irrigation use.", status: "waiting", link: "https://www.farmers.gov/working-with-us/service-center-locator", linkLabel: "Find your local NRCS/Soil & Water office" }
+    { name: "Orchard Bare-Root Planting", phases: [5], timing: "Locked to Dec–Feb dormant window", what: "Fruit and nut trees get planted while they're dormant for winter — it's the only window that works.", status: "upcoming" },
+    { name: "Willow & Living Fence Planting", phases: [5], timing: "Same dormant window — plant early alongside orchard", what: "Fast-growing willow cuttings planted now become a natural living fence line later.", status: "upcoming" },
+    { name: "Fruit Tree Ordering", phases: [5], timing: "Needs lead time — order months ahead of Dec–Feb", what: "Nurseries need advance orders — trees have to be reserved well before the planting window opens. Roots to Fruits Nursery carries Redhaven, Contender, and Cresthaven bare-root (Contender is an NC State-bred variety, bred specifically for late bloom/frost avoidance). Cummins Nursery carries Carolina Belle on nematode-resistant rootstock, also confirms NCSU origin and 750 chill hours. Norman is the hardest of the five to source — not found at major online nurseries; likely needs a direct call to a NC-based nursery or NC State's Sandhills Research Station.", status: "waiting", link: "https://rootstofruitsnursery.com/collections/cold-hardy-peach-trees", linkLabel: "Roots to Fruits — cold-hardy peach collection" },
+    { name: "NC AgVentures Grant", phases: [1, 7], timing: "Application due October", what: "A North Carolina state grant program that helps new and existing farms fund equipment and infrastructure.", status: "notstarted", link: "https://agventures.ces.ncsu.edu/grant-program/", linkLabel: "NC AgVentures — official program page" },
+    { name: "EQIP (Wayne County NRCS)", phases: [1, 7], timing: "Runs on the NRCS review cycle", what: "EQIP = Environmental Quality Incentives Program, a federal USDA cost-share program (via the Natural Resources Conservation Service) that pays toward conservation practices like soil health and water management.", status: "notstarted", link: "https://www.nrcs.usda.gov/programs-initiatives/environmental-quality-incentives-program", linkLabel: "EQIP — official USDA NRCS page" },
+    { name: "Hemp Licensing (USDA)", phases: [1, 4], timing: "Independent processing time — start after FSA number", what: "Growing hemp legally requires a federal USDA license and a background check — separate from any state paperwork.", status: "notstarted", link: "https://www.farmers.gov/your-business/row-crops/hemp", linkLabel: "USDA hemp production — official page" },
+    { name: "Pond / Water Testing", phases: [1, 7], timing: "Runs on agency timelines", what: "Water quality testing (and possible permitting) required before any pond construction or irrigation use.", status: "waiting", link: "https://www.farmers.gov/working-with-us/service-center-locator", linkLabel: "Find your local NRCS/Soil & Water office" }
   ];
 
   const statusLabel = { not_started: "Not Started", active: "In Progress", done: "Complete" };
@@ -354,30 +410,97 @@
   const ribbon = document.getElementById("ribbon");
   PHASES.forEach((p, i) => {
     const cls = p.status === "done" ? "done" : p.status === "active" ? "active" : "";
-    ribbon.innerHTML += `<div class="node ${cls}" onclick="jumpToPhase(${i})"><div class="line"></div><div class="dot"></div><div class="label">${p.name.split("—")[0].trim()}</div></div>`;
+    ribbon.innerHTML += `<div class="node ${cls}" onclick="openPhaseModal(${i})"><div class="line"></div><div class="dot"></div><div class="label">${p.name.split("—")[0].trim()}</div></div>`;
   });
 
   const phaseList = document.getElementById("phase-list");
   PHASES.forEach((p, i) => {
     const stClass = p.status === "done" ? "st-done" : p.status === "active" ? "st-active" : "st-not";
     phaseList.innerHTML += `
-      <div class="phase-card" id="phase-card-${i}">
-        <div class="ph-head" onclick="this.closest('.phase-card').classList.toggle('expanded')"><span class="ph-title">${p.name}</span><span class="ph-status ${stClass}">${statusLabel[p.status]}</span><span class="ph-chevron">&#9656;</span></div>
-        <div class="ph-detail">
-          <p>${p.note}</p>
-          ${p.dependsOn ? `<div class="dep-line"><span class="dep-label">&#8627; Depends on</span> ${p.dependsOn}</div>` : ""}
-          ${p.unlocks ? `<div class="dep-line unlocks"><span class="dep-label">&#8599; Unlocks</span> ${p.unlocks}</div>` : ""}
-        </div>
+      <div class="phase-card" id="phase-card-${i}" onclick="openPhaseModal(${i})">
+        <div class="ph-head"><span class="ph-title">${p.name}</span><span class="ph-status ${stClass}">${statusLabel[p.status]}</span><span class="ph-open">&#8853;</span></div>
       </div>`;
   });
 
-  function jumpToPhase(i) {
-    const card = document.getElementById('phase-card-' + i);
-    card.classList.add('expanded');
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    card.classList.add('flash');
-    setTimeout(() => card.classList.remove('flash'), 900);
+  const trackStatusLabelModal = { notstarted: "Not Started", waiting: "Waiting", upcoming: "Upcoming" };
+
+  function openPhaseModal(i) {
+    const p = PHASES[i];
+    const stClass = p.status === "done" ? "st-done" : p.status === "active" ? "st-active" : "st-not";
+    const phaseNeeds = NEEDS.filter(c => (c.phases || []).includes(i));
+    const phaseGoals = PARALLEL_TRACKS.filter(t => (t.phases || []).includes(i));
+
+    let needsHtml = "";
+    if (phaseNeeds.length) {
+      phaseNeeds.forEach(cat => {
+        let rows = "";
+        cat.items.forEach(it => {
+          rows += `
+            <div class="need-row ${it.status}">
+              <span class="status-dot"></span>
+              <div class="nr-main">
+                <div class="nr-name">${it.item}</div>
+                ${it.note ? `<div class="nr-note">${it.note}</div>` : ""}
+              </div>
+              <div>
+                <span class="nr-status-label">${it.status === "have" ? "Have" : "Need"}</span>
+                <span class="nr-cost">$${it.cost}</span>
+              </div>
+            </div>`;
+        });
+        needsHtml += `<div class="m-need-cat">${cat.name}</div>${rows}`;
+      });
+    } else {
+      needsHtml = `<div class="m-empty">No specific tools or supplies are tied to this phase.</div>`;
+    }
+
+    let goalsHtml = "";
+    if (phaseGoals.length) {
+      phaseGoals.forEach(t => {
+        goalsHtml += `
+          <div class="m-goal status-${t.status}">
+            <div class="mg-name">${t.name}</div>
+            <div class="mg-timing">${t.timing}</div>
+            <span class="mg-status">${trackStatusLabelModal[t.status]}</span>
+            ${t.link ? `<a href="${t.link}" target="_blank" rel="noopener">&#8599; ${t.linkLabel}</a>` : ""}
+          </div>`;
+      });
+    } else {
+      goalsHtml = `<div class="m-empty">No secondary goals run off this phase.</div>`;
+    }
+
+    document.getElementById('phase-modal-panel').innerHTML = `
+      <div class="modal-head">
+        <div class="mh-title">${p.name}</div>
+        <span class="mh-status ${stClass}">${statusLabel[p.status]}</span>
+        <button class="modal-close" onclick="closePhaseModal()" aria-label="Close">&#10005;</button>
+      </div>
+      <div class="modal-body">
+        <p class="m-note">${p.note}</p>
+        ${p.dependsOn ? `<div class="dep-line"><span class="dep-label">&#8627; Depends on</span> ${p.dependsOn}</div>` : ""}
+        ${p.unlocks ? `<div class="dep-line unlocks"><span class="dep-label">&#8599; Unlocks</span> ${p.unlocks}</div>` : ""}
+        <div class="modal-section-title">Tools &amp; Supplies</div>
+        ${needsHtml}
+        <div class="modal-section-title">Related Goals</div>
+        ${goalsHtml}
+      </div>`;
+    const overlay = document.getElementById('phase-modal');
+    overlay.classList.add('open');
+    document.getElementById('phase-modal-panel').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
   }
+
+  function closePhaseModal() {
+    document.getElementById('phase-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('phase-modal').addEventListener('click', e => {
+    if (e.target.id === 'phase-modal') closePhaseModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePhaseModal();
+  });
 
   const progressList = document.getElementById("progress-list");
   const pct = { not_started: 0, active: 45, done: 100 };
