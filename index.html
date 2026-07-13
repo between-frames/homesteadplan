@@ -376,6 +376,9 @@
   ];
 
   const NEEDS = [
+    { name: "Server / Infrastructure", phases: [0], phase: "Phase 0 — runs from day one", items: [
+      {item:"Raspberry Pi / server box", status:"need", cost:"60–120", note:"Dedicated always-on box for the PocketBase ledger — solves the 'database only up when the Mac is awake' problem permanently. Sips power, never gets closed, and eventually takes the ESP32 weather-station feed in the barn"}
+    ]},
     { name: "Soil & Bed Prep", phases: [2], phase: "Phase 2", items: [
       {item:"Broadfork", status:"need", cost:"150–250", note:"Loosens soil without inverting it — core no-till tool"},
       {item:"Digging fork", status:"need", cost:"30–50"},
