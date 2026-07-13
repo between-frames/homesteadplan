@@ -313,13 +313,12 @@
   <a href="#progress">Progress</a>
   <a href="#phases">Phases</a>
   <a href="#goals">Goals</a>
-  <a href="#needs">Needs</a>
 </nav>
 
 <header class="top" id="top">
   <span class="eyebrow">Regenerative Homestead</span>
   <h1>Homestead Plan</h1>
-  <p class="sub">6.99 acres — Zone 8a. This page tracks the plan, what's needed, the layout, and current progress. Updated by hand as work actually happens.</p>
+  <p class="sub">Zone 8a. The story of the plan — the philosophy, the phases, and current progress. Updated by hand as the work actually happens.</p>
 </header>
 
 <div class="hazard-bar"></div>
@@ -349,12 +348,6 @@
     <div id="track-list"></div>
   </section>
 
-  <section class="block" id="needs">
-    <h2>List of Needs</h2>
-    <div id="needs-summary" class="needs-summary"></div>
-    <div class="section-controls"><button class="expand-toggle" id="needs-toggle" onclick="toggleAll('needs-list','.needs-cat','needs-toggle')">Expand All</button></div>
-    <div id="needs-list"></div>
-  </section>
 </main>
 
 <div class="modal-overlay" id="phase-modal" role="dialog" aria-modal="true">
@@ -367,81 +360,12 @@
   const PHASES = [
     { id: "p0", name: "Phase 0 — Pre-Closing Prep", status: "active", note: "PWA build, content backlog, input sourcing — all underway now.", dependsOn: "Nothing — all doable before closing.", unlocks: "Everything downstream once the land closes.", powersUp: "🌱 Powers up: Fruit Tree Ordering (order months ahead of the winter planting window)." },
     { id: "p1", name: "Phase 1 — Closing Week", status: "not_started", note: 'FSA number (<a href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">find local office</a>), soil test (<a href="https://www.ncagr.gov/Divisions/Agronomic-Services/soil-testing" target="_blank" rel="noopener">NCDA&CS</a>), water test, farm status filings.', dependsOn: "Closing on the land.", unlocks: "The FSA number is the key unlock — it opens grants (AgVentures, EQIP) and hemp licensing immediately, without waiting for later phases. Soil test unlocks the biological input order; water test unlocks pond buffer planting.", powersUp: "⚡ Powers up: NC AgVentures + EQIP grants, Hemp licensing, and Pond/Water testing — all switch on the moment the FSA number exists." },
-    { id: "p2", name: "Phase 2 — Site Layout & Soil", status: "not_started", note: "Zone staking, biological rebuild begins — and root cellar siting. 720 lbs of store-class crops (potatoes, winter squash, onions, garlic, carrots) depend on that structure existing, so its spot gets staked now: the land drops 17 ft toward the low creek, and a below-grade cellar in that low corner will take groundwater. It goes on the HIGH side of the parcel — you cannot move a hole after you dig it.", dependsOn: "Soil test results (Phase 1).", unlocks: "All planting — nothing goes in the ground until zones are staked. Also gates the root cellar: siting it correctly (high side, clear of the low-lying corner) has to be decided and staked here in Phase 2, not later.", powersUp: "🌱 Powers up: every planting phase — the whole map goes live once zones are staked." },
+    { id: "p2", name: "Phase 2 — Site Layout & Soil", status: "not_started", note: "Zone staking, biological rebuild begins — and root cellar siting. 720 lbs of store-class crops (potatoes, winter squash, onions, garlic, carrots) depend on that structure existing, so its spot gets staked now: the land drops 17 ft toward a low, wet corner, and a below-grade cellar down there will take groundwater. It goes on the HIGH side of the parcel — you cannot move a hole after you dig it.", dependsOn: "Soil test results (Phase 1).", unlocks: "All planting — nothing goes in the ground until zones are staked. Also gates the root cellar: siting it correctly (high side, clear of the low-lying corner) has to be decided and staked here in Phase 2, not later.", powersUp: "🌱 Powers up: every planting phase — the whole map goes live once zones are staked." },
     { id: "p3", name: "Phase 3 — Kitchen Garden", status: "not_started", note: "Raised bed rings plus the staple crops that feed the household first: potatoes (the staple carb — ~350 lbs off ~350 sqft), winter squash, onions, garlic, dry beans, carrots, and corn, alongside the herbs and greens. Paste tomatoes get their own line — ~300 lbs of Amish Paste canned down to roughly 60 quarts of sauce. And greens are grown, not stored: kale, collards, chard, spinach, and lettuce crop straight through an 8a winter under a low tunnel (collards sweeten after frost), so freezing a year's worth is wasted labor.", dependsOn: "Site staking (Phase 2).", unlocks: "The household's produce — the first priority before market or animal income. (Not total calories: grain, rice, and meat are bought by design.)" },
     { id: "p4", name: "Phase 4 — Market Garden", status: "not_started", note: "Strawberries, peanuts, watermelon, cucumbers, hemp.", dependsOn: "Site staking (Phase 2). Strawberries are October-locked; hemp needs the USDA license (started back in Phase 1).", unlocks: "First external/market income." },
     { id: "p5", name: "Phase 5 — Orchard (parallel)", status: "not_started", note: "Bare-root planting in the Dec–Feb dormant window — now eight species: peaches, figs, muscadine, persimmon, pawpaw, chestnut, hazelnut, and pecan.", dependsOn: "Trees ordered months ahead (see Secondary Goals). Calendar-locked to Dec–Feb — runs parallel, ignores phase order.", unlocks: "Long-term perennial food + the strongest long-run crop value. The orchard structurally overshoots household demand — one mature peach tree already outproduces what four people eat, and minimum tree counts are set by pollination biology, not appetite (pawpaws need two genetically distinct trees; persimmons are dioecious; chestnuts and hazelnuts need 2+ to cross-pollinate). Surplus is guaranteed by design, so u-pick, a market stand, and value-added are the plan from the start — not an afterthought.", powersUp: "🌲 Powers up: the Orchard bare-root + Willow/living fence planting — this IS the Dec–Feb execution window those goals were waiting for." },
     { id: "p6", name: "Phase 6 — Animals", status: "not_started", note: "Fencing must come first, then the Year-One roster: laying hens, rabbits, and honeybees. Hens and rabbits go in once fencing and shelter are ready; bees install in spring, need hive equipment in hand beforehand, and do best once some pollinator/forage plantings are established.", dependsOn: "Fencing + shelter built first. Bees additionally want spring timing + some forage plantings in the ground.", unlocks: "Eggs, meat, honey, and pollination for the whole system." },
     { id: "p7", name: "Phase 7 — Grants, Pond, Structures", status: "not_started", note: "Grants and hemp are NOT actually 'last' — they unlock at the FSA number (Phase 1) and run on their own deadlines. Pond waits on the water test. Structures are capital-dependent, whenever budget allows.", dependsOn: "Grants/hemp: just the FSA number (Phase 1) + their deadlines. Pond: water test clearance. Structures: budget.", unlocks: "Funding, water infrastructure, and built space — several pieces can start far earlier than the phase number suggests." }
-  ];
-
-  const NEEDS = [
-    { name: "Server / Infrastructure", phases: [0], phase: "Phase 0 — runs from day one", items: [
-      {item:"Raspberry Pi / server box", status:"need", cost:"60–120", note:"Dedicated always-on box for the PocketBase ledger — solves the 'database only up when the Mac is awake' problem permanently. Sips power, never gets closed, and eventually takes the ESP32 weather-station feed in the barn"}
-    ]},
-    { name: "Soil & Bed Prep", phases: [2], phase: "Phase 2", items: [
-      {item:"Broadfork", status:"need", cost:"150–250", note:"Loosens soil without inverting it — core no-till tool"},
-      {item:"Digging fork", status:"need", cost:"30–50"},
-      {item:"Wheelbarrow (two-wheel)", status:"need", cost:"80–150", note:"Two-wheel for stability on sandy soil"},
-      {item:"Tarps", status:"need", cost:"30–60", note:"Solarizing/smothering, moving mulch"}
-    ]},
-    { name: "Weeding & Cultivation", phases: [3], phase: "Phase 3", items: [
-      {item:"Stirrup hoe", status:"need", cost:"40–110", note:"Highest-priority hand tool for this scale"},
-      {item:"Wheel hoe", status:"need", cost:"300–400", note:"Human-powered — replaces a gas tiller"}
-    ]},
-    { name: "Fencing & Infrastructure", phases: [6], phase: "Phase 6 pre-req", items: [
-      {item:"T-post pounder (manual)", status:"need", cost:"40–70"},
-      {item:"Fence pliers", status:"need", cost:"25–40", note:"Multi-function: cut, staple, stretch"},
-      {item:"Wire stretcher", status:"need", cost:"40–80"},
-      {item:"Electric fencing kit", status:"need", cost:"150–400", note:"Later — animal paddocks, after core perimeter fencing is in"}
-    ]},
-    { name: "Orchard", phases: [5], phase: "Phase 5", items: [
-      {item:"Bypass pruners", status:"need", cost:"30–80", note:"Buy quality — constant use across 5+ fruit varieties"},
-      {item:"Loppers", status:"need", cost:"40–70"},
-      {item:"Whetstone kit", status:"need", cost:"20–40", note:"Keep blades sharp — cheap insurance"}
-    ]},
-    { name: "Living Fence / Hedgerow", phases: [5], phase: "Dormant season — plant early", items: [
-      {item:"Willow whips/cuttings", status:"need", cost:"30–80", note:"Fast-growing living fence — plant alongside orchard bare-root window"},
-      {item:"Early dormant trees (boundary line)", status:"need", cost:"30–60 each", note:"Same dormant-season planting push as the orchard"}
-    ]},
-    { name: "Beekeeping — Honey Flow System", phases: [6], phase: "Phase 6 — apiary (spring install)", items: [
-      {item:"Flow-style hive body + flow super", status:"need", cost:"300–700", note:"Taps honey without opening the hive — budget flow-style kits run ~$300, official Flow Hive bundles ~$700+"},
-      {item:"Brood box + deep frames/foundation", status:"need", cost:"60–120"},
-      {item:"Hive stand", status:"need", cost:"30–60"},
-      {item:"Bee suit & veil", status:"need", cost:"50–100"},
-      {item:"Smoker", status:"need", cost:"25–40"},
-      {item:"Hive tool", status:"need", cost:"10–15"}
-    ]},
-    { name: "DIY Utility Vehicle", phases: [], phase: "Ongoing / opportunistic", items: [
-      {item:"Used riding lawnmower (ATV conversion)", status:"need", cost:"200–600", note:"Base vehicle for a DIY mini-ATV build — used market, highly variable"},
-      {item:"Pull-behind utility trailer", status:"need", cost:"150–400", note:"Hauling — feed, mulch, harvest loads"},
-      {item:"Trailer hitch mount (mower)", status:"need", cost:"30–60"}
-    ]},
-    { name: "Seed Starting", phases: [3], phase: "Phase 3 — Feb/Mar, indoors", items: [
-      {item:"Seed trays + domes", status:"need", cost:"40–80", note:"Tomatoes, peppers, brassicas all start 6–10 weeks before transplant"},
-      {item:"Grow light / shop light", status:"need", cost:"40–120", note:"Feb–Mar starts need light before the greenhouse exists"},
-      {item:"Heat mat", status:"need", cost:"25–50", note:"Peppers especially — they will not germinate in a cold room"},
-      {item:"Seed-starting mix", status:"need", cost:"20–40"}
-    ]},
-    { name: "Preservation & Canning", phases: [3], phase: "Phase 3 — summer harvest", items: [
-      {item:"Water bath canner + rack", status:"need", cost:"40–80", note:"~60 quarts of tomato sauce per year — this is not optional"},
-      {item:"Quart + pint jars, lids, rings", status:"need", cost:"100–200", note:"60+ quarts of sauce, plus pickles, jam, preserved peppers"},
-      {item:"Food mill / strainer", status:"need", cost:"50–150", note:"Peeling and seeding 300 lbs of paste tomatoes by hand is a nightmare"},
-      {item:"Jar lifter + funnel + headspace tool", status:"need", cost:"20–30"},
-      {item:"Chest freezer", status:"need", cost:"200–400", note:"Frozen peppers, squash, pawpaw pulp, and SHELLED PECANS (they go rancid at room temp)"}
-    ]},
-    { name: "Trellising / Vertical", phases: [3], phase: "Phase 3 — spring", items: [
-      {item:"Cattle panels (16ft)", status:"need", cost:"30–40 each", note:"Cucumbers, pole beans, butternut. Vertical = airflow = the best free defense against SE humidity disease"},
-      {item:"T-posts", status:"need", cost:"6–10 each"},
-      {item:"Trellis netting", status:"need", cost:"20–40", note:"Peas — they collapse into a rotting mat without support"},
-      {item:"Fabric slings", status:"have", cost:"0", note:"Old t-shirts / mesh bags — butternut fruits run 4–5 lbs and will tear off the vine unsupported"}
-    ]},
-    { name: "Storage & Milling", phases: [2, 4], phase: "Phase 2 siting → Phase 4 harvest", items: [
-      {item:"Root cellar (build)", status:"need", cost:"varies", note:"LOAD-BEARING. 720 lbs of store crops depend on it. 40–50°F. Must be sited on the HIGH side of the parcel — the low creek will flood a low-corner cellar"},
-      {item:"Grain mill (hand)", status:"need", cost:"80–250", note:"Cornmeal + chestnut flour. Store WHOLE corn kernels and grind as needed — cornmeal goes rancid in months"},
-      {item:"Food-grade buckets + gamma lids", status:"need", cost:"50–100", note:"Whole corn, dry beans (cowpeas) — shelf-stable for years"},
-      {item:"Curing racks / mesh trays", status:"need", cost:"30–80", note:"Onions, garlic, winter squash, sweet potatoes all need 2–3 weeks of airflow before storage"}
-    ]}
   ];
 
   const PARALLEL_TRACKS = [
@@ -482,32 +406,7 @@
   function openPhaseModal(i) {
     const p = PHASES[i];
     const stClass = p.status === "done" ? "st-done" : p.status === "active" ? "st-active" : "st-not";
-    const phaseNeeds = NEEDS.filter(c => (c.phases || []).includes(i));
     const phaseGoals = PARALLEL_TRACKS.filter(t => (t.phases || []).includes(i));
-
-    let needsHtml = "";
-    if (phaseNeeds.length) {
-      phaseNeeds.forEach(cat => {
-        let rows = "";
-        cat.items.forEach(it => {
-          rows += `
-            <div class="need-row ${it.status}">
-              <span class="status-dot"></span>
-              <div class="nr-main">
-                <div class="nr-name">${it.item}</div>
-                ${it.note ? `<div class="nr-note">${it.note}</div>` : ""}
-              </div>
-              <div>
-                <span class="nr-status-label">${it.status === "have" ? "Have" : "Need"}</span>
-                <span class="nr-cost">$${it.cost}</span>
-              </div>
-            </div>`;
-        });
-        needsHtml += `<div class="m-need-cat">${cat.name}</div>${rows}`;
-      });
-    } else {
-      needsHtml = `<div class="m-empty">No specific tools or supplies are tied to this phase.</div>`;
-    }
 
     let goalsHtml = "";
     if (phaseGoals.length) {
@@ -535,8 +434,6 @@
         ${p.dependsOn ? `<div class="meta-row depends"><div class="meta-label">&#8627; Depends on</div><div class="meta-body">${p.dependsOn}</div></div>` : ""}
         ${p.unlocks ? `<div class="meta-row unlocks"><div class="meta-label">&#8599; Unlocks</div><div class="meta-body">${p.unlocks}</div></div>` : ""}
         ${p.powersUp ? `<div class="meta-row powersup"><div class="meta-label">${puLabel(p.powersUp)}</div><div class="meta-body">${puBody(p.powersUp)}</div></div>` : ""}
-        <div class="modal-section-title">Tools &amp; Supplies</div>
-        ${needsHtml}
         <div class="modal-section-title">Related Goals</div>
         ${goalsHtml}
       </div>`;
@@ -567,42 +464,6 @@
         <div class="bar-track"><div class="bar-fill" style="width:${pct[p.status]}%"></div></div>
       </div>`;
   });
-
-  let total = 0, haveCount = 0;
-  const needsList = document.getElementById("needs-list");
-  NEEDS.forEach((cat, ci) => {
-    let rows = "";
-    let catTotal = 0, catHave = 0;
-    cat.items.forEach(it => {
-      total++; catTotal++;
-      if (it.status === "have") { haveCount++; catHave++; }
-      rows += `
-        <div class="need-row ${it.status}">
-          <span class="status-dot"></span>
-          <div class="nr-main">
-            <div class="nr-name">${it.item}</div>
-            ${it.note ? `<div class="nr-note">${it.note}</div>` : ""}
-          </div>
-          <div>
-            <span class="nr-status-label">${it.status === "have" ? "Have" : "Need"}</span>
-            <span class="nr-cost">$${it.cost}</span>
-          </div>
-        </div>`;
-    });
-    needsList.innerHTML += `
-      <div class="needs-cat" id="needs-cat-${ci}">
-        <div class="cat-head" onclick="this.closest('.needs-cat').classList.toggle('expanded')">
-          <div class="cat-headmain">
-            <h3>${cat.name}</h3>
-            <div class="cat-phase">${cat.phase}</div>
-          </div>
-          <span class="cat-count">${catHave}/${catTotal}</span>
-          <span class="cat-chevron">&#9656;</span>
-        </div>
-        <div class="cat-body">${rows}</div>
-      </div>`;
-  });
-  document.getElementById("needs-summary").textContent = `${haveCount} / ${total} ITEMS ACQUIRED — SAMPLE SUBSET SHOWN`;
 
   const trackStatusLabel = { notstarted: "Not Started", waiting: "Waiting", upcoming: "Upcoming" };
   const trackList = document.getElementById("track-list");
