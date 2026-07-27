@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Parcel map preview</title>
+<style>body{font-family:Figtree,-apple-system,sans-serif;background:#F5EAD8;margin:0;padding:20px;color:#1B2A17}
+h1{font-size:18px} .grid{display:flex;flex-wrap:wrap;gap:16px} .cell{background:#FFFDF7;border:1px solid #EEE4D2;border-radius:16px;padding:12px;width:230px}
+.cap{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#B5642E;margin-bottom:8px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:10px 0 4px;font-size:12px;color:#6B6A61}
+.legend span{display:inline-flex;align-items:center;gap:5px} .sw{width:11px;height:11px;border-radius:2px;display:inline-block}</style></head>
+<body><h1>Parcel overview — true outline</h1>
+<p style="font-size:13px;color:#6B6A61;max-width:700px">Traced from your Google Earth boundary. Wide across the north (the field, where the pine→orchard→willow bands frame F1–F6), house + mandala + livestock mid-parcel just below the drive, tapering south into the food forest + pond. Tapping a planting's bed lights its zone. Zone fills are schematic inside the real outline.</p>
+<div class="legend">
+<span><span class="sw" style="background:#33562F"></span>Pine windbreak</span>
+<span><span class="sw" style="background:#D98C86"></span>Fruit/nut orchard</span>
+<span><span class="sw" style="background:#B7C77E"></span>Willow fedge</span>
+<span><span class="sw" style="background:#E7EFD8"></span>Fields / mandala</span>
+<span><span class="sw" style="background:#EAF0DE"></span>Food forest</span>
+<span><span class="sw" style="background:#D9E7EC"></span>Pond</span>
+</div>
+<div class="grid" id="g"></div>
+<script>
+const SANS="Figtree,-apple-system,sans-serif";
+function parcelMapSVG(hl){
+  const on=k=>k===hl; const GOLD='#C99A2E',GOLDF='#FBE9C0';
+  const uBand=(x,y,w,h,t,fill,key)=>{const f=on(key)?GOLDF:fill;
+    return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+t+'" fill="'+f+'"/><rect x="'+x+'" y="'+y+'" width="'+t+'" height="'+h+'" fill="'+f+'"/><rect x="'+(x+w-t)+'" y="'+y+'" width="'+t+'" height="'+h+'" fill="'+f+'"/>';};
+  const cell=(k,x,y,w,h,label,fs)=>{const a=on(k);
+    return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="5" fill="'+(a?GOLDF:'#EAF0DE')+'" stroke="'+(a?GOLD:'#C7D0AE')+'" stroke-width="'+(a?1.8:1)+'"/><text x="'+(x+w/2)+'" y="'+(y+h/2)+'" text-anchor="middle" dominant-baseline="middle" font-family="'+SANS+'" font-size="'+(fs||8)+'" font-weight="'+(a?700:600)+'" fill="'+(a?'#7A5A12':'#4F6138')+'">'+label+'</text>';};
+  const fA=on('fields');
+  const fc=(x,y,w,h,l)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="4" fill="'+(fA?GOLDF:'#E7EFD8')+'" stroke="'+(fA?GOLD:'#BFCBA0')+'" stroke-width="'+(fA?1.6:0.9)+'"/><text x="'+(x+w/2)+'" y="'+(y+h/2)+'" text-anchor="middle" dominant-baseline="middle" font-family="'+SANS+'" font-size="8" font-weight="700" fill="'+(fA?'#7A5A12':'#4F6138')+'">'+l+'</text>';
+  const mA=on('mandala'),pA=on('pond');
+  return '<svg viewBox="0 0 300 430" width="100%" style="display:block;">'
+    +'<text x="150" y="13" text-anchor="middle" font-family="'+SANS+'" font-size="9" fill="#8A8779">N ↑ · 573 Smiths Winding Ln (true outline)</text>'
+    +'<path d="M92,34 L270,40 L275,358 L156,389 L23,406 L48,185 Z" fill="#F7F4EA" stroke="#B5642E" stroke-width="1.6"/>'
+    +uBand(105,44,150,102,7,'#33562F','perimeter')+uBand(112,51,136,95,6,'#D98C86','orchard')+uBand(118,57,124,89,4,'#B7C77E','perimeter')
+    +'<rect x="123" y="62" width="114" height="80" fill="#F3F5EA"/>'
+    +fc(125,66,26,30,'NA')+fc(153,66,26,30,'NB')+fc(181,66,26,30,'NC')+fc(209,66,26,30,'ND')+fc(125,100,17,32,'F1')+fc(144,100,17,32,'F2')+fc(163,100,17,32,'F3')+fc(182,100,17,32,'F4')+fc(201,100,17,32,'F5')+fc(220,100,17,32,'F6')
+    +'<rect x="150" y="196" width="20" height="17" rx="2" fill="#7FA6C9" stroke="#5E86A8" stroke-width="1"/><text x="160" y="190" text-anchor="middle" font-family="'+SANS+'" font-size="7" fill="#5E6B78">house</text>'
+    +'<rect x="188" y="188" width="66" height="42" rx="6" fill="#F3EDE0" stroke="#D9A29A" stroke-width="1.2" stroke-dasharray="3 2"/><text x="221" y="211" text-anchor="middle" dominant-baseline="middle" font-family="'+SANS+'" font-size="8" font-weight="600" fill="#9A6B62">Livestock</text>'
+    +'<path d="M150,158 A48,48 0 0 0 150,254 Z" fill="'+(mA?GOLDF:'#E7EFD8')+'" stroke="'+(mA?GOLD:'#BFCBA0')+'" stroke-width="'+(mA?2:1.1)+'"/>'
+    +'<path d="M150,172 A34,34 0 0 0 150,240" fill="none" stroke="'+(mA?'#D8B25A':'#CDD8B0')+'" stroke-width="0.8"/>'
+    +'<path d="M150,186 A20,20 0 0 0 150,226" fill="none" stroke="'+(mA?'#D8B25A':'#CDD8B0')+'" stroke-width="0.8"/>'
+    +'<circle cx="146" cy="206" r="3.5" fill="'+(mA?'#D8B25A':'#CDD8B0')+'"/>'
+    +'<text x="116" y="206" text-anchor="middle" dominant-baseline="middle" font-family="'+SANS+'" font-size="8" font-weight="'+(mA?700:600)+'" fill="'+(mA?'#7A5A12':'#4F6138')+'">Mandala</text>'
+    +cell('dye',150,262,40,16,'Dye',8)+cell('berry',196,262,40,16,'Berry',8)+cell('foodforest',36,276,92,78,'Food Forest',9)
+    +'<ellipse cx="188" cy="322" rx="46" ry="26" fill="'+(pA?GOLDF:'#D9E7EC')+'" stroke="'+(pA?GOLD:'#A9C3CC')+'" stroke-width="'+(pA?2:1.1)+'"/><text x="188" y="322" text-anchor="middle" dominant-baseline="middle" font-family="'+SANS+'" font-size="9" font-weight="'+(pA?700:600)+'" fill="'+(pA?'#7A5A12':'#4A6B76')+'">Pond</text>'
+    +'</svg>';
+}
+const states=[['no highlight',null],['Fields (F1–F6)','fields'],['Orchard band','orchard'],['Perimeter (pine/willow)','perimeter'],['Mandala','mandala'],['Food Forest','foodforest'],['Pond','pond']];
+document.getElementById('g').innerHTML=states.map(([cap,k])=>'<div class="cell"><div class="cap">'+cap+'</div>'+parcelMapSVG(k)+'</div>').join('');
+</script></body></html>
