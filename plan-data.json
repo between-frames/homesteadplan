@@ -1,17 +1,17 @@
 {
- "generated_at": "2026-08-11T21:27-04:00",
+ "generated_at": "2026-08-12T11:37-04:00",
  "rollups": {
-  "decisions_resolved": 19,
-  "decisions_open": 2,
-  "constraints_total": 60,
+  "decisions_resolved": 21,
+  "decisions_open": 6,
+  "constraints_total": 63,
   "constraints_handled": 22,
-  "constraints_open": 37,
-  "crops_active": 220,
-  "crops_ruled_out": 7,
+  "constraints_open": 40,
+  "crops_active": 221,
+  "crops_ruled_out": 6,
   "plantings_total": 225,
-  "plantings_dated": 165,
-  "needs_total": 188,
-  "needs_have": 25,
+  "plantings_dated": 175,
+  "needs_total": 199,
+  "needs_have": 26,
   "fields_measured": 3,
   "fields_total": 41
  },
@@ -26,23 +26,23 @@
    "pct": 0
   },
   "P1": {
-   "done": 0,
-   "total": 0,
-   "pct": null
+   "done": 1,
+   "total": 3,
+   "pct": 33
   },
   "P2": {
    "done": 19,
-   "total": 50,
-   "pct": 38
+   "total": 49,
+   "pct": 39
   },
   "P3": {
    "done": 2,
-   "total": 26,
-   "pct": 8
+   "total": 32,
+   "pct": 6
   },
   "P4": {
    "done": 0,
-   "total": 5,
+   "total": 8,
    "pct": 0
   },
   "P5": {
