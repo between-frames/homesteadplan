@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-13T00:42-04:00",
+ "generated_at": "2026-08-13T07:48-04:00",
  "rollups": {
   "decisions_resolved": 23,
   "decisions_open": 8,
@@ -16,8 +16,8 @@
   "fields_total": 41
  },
  "next_deadline": {
-  "date": "2026-09-02",
-  "item": "DJI Air 3S drone + Fly More Combo + extras"
+  "date": "2026-08-31",
+  "item": "Seed trays + domes"
  },
  "phase_progress": {
   "P0": {
@@ -32,13 +32,13 @@
   },
   "P2": {
    "done": 19,
-   "total": 53,
-   "pct": 36
+   "total": 58,
+   "pct": 33
   },
   "P3": {
    "done": 3,
-   "total": 42,
-   "pct": 7
+   "total": 39,
+   "pct": 8
   },
   "P4": {
    "done": 0,
@@ -52,7 +52,7 @@
   },
   "P6": {
    "done": 0,
-   "total": 23,
+   "total": 21,
    "pct": 0
   },
   "P7": {
