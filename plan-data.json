@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-12T23:10-04:00",
+ "generated_at": "2026-08-12T23:50-04:00",
  "rollups": {
   "decisions_resolved": 22,
   "decisions_open": 8,
@@ -10,7 +10,7 @@
   "crops_ruled_out": 9,
   "plantings_total": 235,
   "plantings_dated": 183,
-  "needs_total": 211,
+  "needs_total": 216,
   "needs_have": 28,
   "fields_measured": 3,
   "fields_total": 41
@@ -32,13 +32,13 @@
   },
   "P2": {
    "done": 19,
-   "total": 50,
-   "pct": 38
+   "total": 52,
+   "pct": 37
   },
   "P3": {
    "done": 3,
-   "total": 39,
-   "pct": 8
+   "total": 42,
+   "pct": 7
   },
   "P4": {
    "done": 0,
