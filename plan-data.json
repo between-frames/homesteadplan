@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-12T21:26-04:00",
+ "generated_at": "2026-08-12T21:41-04:00",
  "rollups": {
   "decisions_resolved": 22,
   "decisions_open": 8,
@@ -10,7 +10,7 @@
   "crops_ruled_out": 9,
   "plantings_total": 231,
   "plantings_dated": 179,
-  "needs_total": 209,
+  "needs_total": 211,
   "needs_have": 26,
   "fields_measured": 3,
   "fields_total": 41
@@ -37,7 +37,7 @@
   },
   "P3": {
    "done": 2,
-   "total": 37,
+   "total": 39,
    "pct": 5
   },
   "P4": {
