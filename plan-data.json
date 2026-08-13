@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-08-12T23:50-04:00",
+ "generated_at": "2026-08-13T00:27-04:00",
  "rollups": {
-  "decisions_resolved": 22,
+  "decisions_resolved": 23,
   "decisions_open": 8,
   "constraints_total": 80,
   "constraints_handled": 22,
@@ -10,14 +10,14 @@
   "crops_ruled_out": 9,
   "plantings_total": 235,
   "plantings_dated": 183,
-  "needs_total": 216,
+  "needs_total": 217,
   "needs_have": 28,
   "fields_measured": 3,
   "fields_total": 41
  },
  "next_deadline": {
-  "date": "2026-10-15",
-  "item": "Cereal rye cover-crop seed - ~141 lb (90 lb/ac x 1.57 ac)"
+  "date": "2026-09-02",
+  "item": "DJI Air 3S drone kit (PRODUCTION - client-funded, not land budget)"
  },
  "phase_progress": {
   "P0": {
@@ -32,8 +32,8 @@
   },
   "P2": {
    "done": 19,
-   "total": 52,
-   "pct": 37
+   "total": 53,
+   "pct": 36
   },
   "P3": {
    "done": 3,
