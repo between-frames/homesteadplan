@@ -8,7 +8,13 @@ cd "$PLAN"
 echo "[$(date '+%Y-%m-%d %H:%M')] -> regenerating plan-data.json from PocketBase"
 python3 scripts/export_plan.py
 echo "[$(date '+%Y-%m-%d %H:%M')] -> git commit + push"
-git add plan-data.json index.html scripts/export_plan.py publish-plan.sh
+# Was an explicit file list, which silently skipped anything not named here.
+# On 2026-08-15 that dropped a scrubbed parcel-map-preview.html: the file was
+# edited, the publish ran, git reported "nothing to commit", and the old version
+# with the street address stayed live. Stage everything tracked instead, so a
+# change to any published file cannot be quietly left behind.
+git add -u
+git add plan-data.json index.html scripts/export_plan.py publish-plan.sh parcel-map-preview.html 2>/dev/null || true
 git commit -m "Plan: refresh live DB snapshot ($(date '+%Y-%m-%d %H:%M'))" || echo "   (nothing to commit)"
 git push
 echo "[$(date '+%Y-%m-%d %H:%M')] done — Cloudflare Pages will rebuild from the push"
