@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-17T09:51-04:00",
+ "generated_at": "2026-08-17T10:05-04:00",
  "rollups": {
   "decisions_resolved": 24,
   "decisions_open": 8,
@@ -10,14 +10,14 @@
   "crops_ruled_out": 9,
   "plantings_total": 235,
   "plantings_dated": 183,
-  "needs_total": 223,
+  "needs_total": 225,
   "needs_have": 32,
   "fields_measured": 3,
   "fields_total": 41
  },
  "next_deadline": {
-  "date": "2026-08-31",
-  "item": "Solar wifi security cameras (8) + DVR"
+  "date": "2026-08-19",
+  "item": "DJI Care Refresh (Air 3S) - TIME-SENSITIVE"
  },
  "phase_progress": {
   "P0": {
@@ -32,8 +32,8 @@
   },
   "P2": {
    "done": 22,
-   "total": 59,
-   "pct": 37
+   "total": 61,
+   "pct": 36
   },
   "P3": {
    "done": 4,
