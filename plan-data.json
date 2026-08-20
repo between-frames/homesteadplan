@@ -1,23 +1,23 @@
 {
- "generated_at": "2026-08-17T10:39-04:00",
+ "generated_at": "2026-08-20T13:54-04:00",
  "rollups": {
-  "decisions_resolved": 24,
+  "decisions_resolved": 25,
   "decisions_open": 8,
-  "constraints_total": 80,
+  "constraints_total": 82,
   "constraints_handled": 25,
-  "constraints_open": 55,
-  "crops_active": 230,
+  "constraints_open": 57,
+  "crops_active": 234,
   "crops_ruled_out": 9,
   "plantings_total": 263,
   "plantings_dated": 183,
-  "needs_total": 230,
-  "needs_have": 32,
+  "needs_total": 237,
+  "needs_have": 48,
   "fields_measured": 3,
   "fields_total": 41
  },
  "next_deadline": {
-  "date": "2026-08-19",
-  "item": "DJI Care Refresh (Air 3S) - TIME-SENSITIVE"
+  "date": "2026-08-31",
+  "item": "Utilities & Infrastructure"
  },
  "phase_progress": {
   "P0": {
@@ -31,14 +31,14 @@
    "pct": 33
   },
   "P2": {
-   "done": 22,
-   "total": 63,
-   "pct": 35
+   "done": 27,
+   "total": 67,
+   "pct": 40
   },
   "P3": {
-   "done": 4,
+   "done": 9,
    "total": 43,
-   "pct": 9
+   "pct": 21
   },
   "P4": {
    "done": 0,
@@ -46,9 +46,9 @@
    "pct": 0
   },
   "P5": {
-   "done": 1,
+   "done": 2,
    "total": 12,
-   "pct": 8
+   "pct": 17
   },
   "P6": {
    "done": 0,
@@ -56,9 +56,9 @@
    "pct": 0
   },
   "P7": {
-   "done": 1,
-   "total": 37,
-   "pct": 3
+   "done": 6,
+   "total": 40,
+   "pct": 15
   }
  },
  "note": "Big-picture snapshot from PocketBase. Counts only — the item/shopping list lives on the coordination page."

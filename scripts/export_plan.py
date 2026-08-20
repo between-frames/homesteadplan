@@ -35,10 +35,27 @@ roll = {
 }
 
 # --- next single hard deadline (one milestone, not a list) ---
-nd = c.execute("""SELECT needed_by, item FROM needs
+#
+# PUBLIC PAGE. Everything written here ends up on the open internet.
+#
+# This used to publish `needs.item` verbatim. That is free text on a PRIVATE buy
+# list, chosen with no thought to who reads it, and whatever happened to sort
+# first got copied straight onto a public page and pushed by a nightly job with
+# nobody reading it first. On 2026-08-20 the next deadline was "Solar wifi
+# security cameras (8) + DVR", which would have told the internet how many
+# cameras this property has and that they are not installed yet.
+#
+# So: never publish the item text. Publish the DATE plus the CATEGORY, which is
+# a select field with a fixed vocabulary ("Tools", "Orchard", "Irrigation", ...)
+# that somebody has to deliberately extend. Safe BY CONSTRUCTION rather than by
+# remembering - a new need can no longer leak anything by being added.
+#
+# If a specific milestone is ever worth naming publicly, write the public
+# wording here as a literal. Do not reconnect this to a user-entered field.
+nd = c.execute("""SELECT needed_by, category FROM needs
                   WHERE status='need' AND needed_by!='' AND substr(needed_by,1,10) >= ?
                   ORDER BY needed_by LIMIT 1""", (today,)).fetchone()
-next_deadline = {"date": nd["needed_by"][:10], "item": (nd["item"] or "")[:80]} if nd else None
+next_deadline = {"date": nd["needed_by"][:10], "item": (nd["category"] or "Next milestone")[:40]} if nd else None
 
 # --- per-phase progress: share of that phase's needs already in hand (have/skip) ---
 phase_progress = {}
