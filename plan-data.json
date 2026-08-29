@@ -1,23 +1,23 @@
 {
- "generated_at": "2026-08-20T14:29-04:00",
+ "generated_at": "2026-08-29T18:23-04:00",
  "rollups": {
-  "decisions_resolved": 25,
-  "decisions_open": 8,
-  "constraints_total": 82,
-  "constraints_handled": 25,
-  "constraints_open": 57,
-  "crops_active": 234,
+  "decisions_resolved": 32,
+  "decisions_open": 9,
+  "constraints_total": 85,
+  "constraints_handled": 27,
+  "constraints_open": 58,
+  "crops_active": 236,
   "crops_ruled_out": 9,
   "plantings_total": 263,
-  "plantings_dated": 183,
-  "needs_total": 237,
-  "needs_have": 49,
+  "plantings_dated": 181,
+  "needs_total": 257,
+  "needs_have": 61,
   "fields_measured": 3,
   "fields_total": 41
  },
  "next_deadline": {
-  "date": "2026-08-31",
-  "item": "Utilities & Infrastructure"
+  "date": "2026-09-08",
+  "item": "Soil & Bed Prep"
  },
  "phase_progress": {
   "P0": {
@@ -26,14 +26,14 @@
    "pct": 17
   },
   "P1": {
-   "done": 1,
-   "total": 3,
-   "pct": 33
+   "done": 7,
+   "total": 17,
+   "pct": 41
   },
   "P2": {
-   "done": 27,
-   "total": 67,
-   "pct": 40
+   "done": 31,
+   "total": 72,
+   "pct": 43
   },
   "P3": {
    "done": 10,
@@ -46,9 +46,9 @@
    "pct": 0
   },
   "P5": {
-   "done": 2,
-   "total": 12,
-   "pct": 17
+   "done": 3,
+   "total": 13,
+   "pct": 23
   },
   "P6": {
    "done": 0,
@@ -56,9 +56,9 @@
    "pct": 0
   },
   "P7": {
-   "done": 6,
-   "total": 40,
-   "pct": 15
+   "done": 7,
+   "total": 41,
+   "pct": 17
   }
  },
  "note": "Big-picture snapshot from PocketBase. Counts only — the item/shopping list lives on the coordination page."
