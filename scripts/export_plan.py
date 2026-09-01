@@ -4,7 +4,14 @@ Read-only. Roll-up counts + per-phase progress ONLY — deliberately NO needs/it
 list (that's the coordination page's job, not the plan page).
 Usage: export_plan.py [db_path] [out_path]
 """
-import sqlite3, json, sys, datetime
+import sqlite3, json, sys, datetime, os
+
+# The generators live in Homestead-os/scripts. Imported by path so this page
+# reads the SAME moon and the SAME calendar as the app, the coordination page and
+# the vault, rather than growing a fifth opinion.
+sys.path.insert(0, os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "Homestead-os", "scripts"))
 
 DB  = sys.argv[1] if len(sys.argv) > 1 else "/Users/kenny/Documents/claude projects/Pocketbase/pb_data/data.db"
 OUT = sys.argv[2] if len(sys.argv) > 2 else "/Users/kenny/Documents/claude projects/Homesteadplan/plan-data.json"
@@ -64,10 +71,64 @@ for code in ("P0","P1","P2","P3","P4","P5","P6","P7"):
     done = one("SELECT count(*) FROM needs WHERE phase=? AND status='have'", code)
     phase_progress[code] = {"done": done, "total": tot, "pct": round(100*done/tot) if tot else None}
 
+# ---------------------------------------------------------------- 2026-09-01
+# THE PLAN PAGE IS THE BIG PICTURE, so it gets the SEASON, not the day.
+#
+# It had zero references to the moon or to harvest. But day-level Thun detail
+# does not belong on a strategic overview - that is what the app and the
+# coordination page are for. What belongs here is the next lunar working day (so
+# the plan says when work actually happens next) and how much of the farm is in
+# a harvest window (so the plan says what season it is).
+#
+# THIS PAGE IS PUBLIC and publish-plan.sh scrubs it before pushing. Nothing added
+# here is identifying: constellation names, crop names and month numbers.
+TODAY = datetime.date.today()
+
+
+def _lunar_next():
+    """The next lunar working day among the scheduled jobs, or None."""
+    try:
+        import gen_lunar_tasks as glt
+    except Exception:
+        return None
+    rows = [r for r in glt.compute(TODAY.year, DB) if "error" not in r and "skipped" not in r]
+    rows = [r for r in rows if r["date"] >= TODAY]
+    if not rows:
+        return None
+    r = sorted(rows, key=lambda x: x["date"])[0]
+    return {"date": r["date"].isoformat(), "job": r["slug"], "part": r["part"],
+            "constellation": r["constellation"], "quarter": r["quarter"],
+            "ascending": bool(r["ascending"])}
+
+
+def _harvest_season():
+    """How many active crops are in a SOURCED harvest window this month."""
+    try:
+        import planting_calendar as pc
+    except Exception:
+        return None
+    m = TODAY.month
+    names = [r[0] for r in c.execute(
+        "SELECT DISTINCT crop FROM crops WHERE status='active' AND crop<>''")]
+    inwin = []
+    for n in names:
+        w = pc.harvest_window(n)
+        if not w:
+            continue
+        a, b = w
+        if (a <= m <= b) if a <= b else (m >= a or m <= b):
+            inwin.append(n)
+    return {"month": m, "count": len(inwin), "crops": sorted(inwin),
+            "of_active": len(names),
+            "source": "NC State AG-756-02, Days to Harvest"}
+
+
 data = {
     "generated_at": datetime.datetime.now().astimezone().isoformat(timespec="minutes"),
     "rollups": roll,
     "next_deadline": next_deadline,
+    "next_lunar": _lunar_next(),
+    "harvest_season": _harvest_season(),
     "phase_progress": phase_progress,
     "note": "Big-picture snapshot from PocketBase. Counts only — the item/shopping list lives on the coordination page.",
 }

@@ -1,16 +1,16 @@
 {
- "generated_at": "2026-08-29T18:23-04:00",
+ "generated_at": "2026-09-01T12:27-04:00",
  "rollups": {
-  "decisions_resolved": 32,
-  "decisions_open": 9,
-  "constraints_total": 85,
-  "constraints_handled": 27,
-  "constraints_open": 58,
-  "crops_active": 236,
-  "crops_ruled_out": 9,
-  "plantings_total": 263,
-  "plantings_dated": 181,
-  "needs_total": 257,
+  "decisions_resolved": 33,
+  "decisions_open": 10,
+  "constraints_total": 87,
+  "constraints_handled": 26,
+  "constraints_open": 61,
+  "crops_active": 237,
+  "crops_ruled_out": 19,
+  "plantings_total": 273,
+  "plantings_dated": 176,
+  "needs_total": 259,
   "needs_have": 61,
   "fields_measured": 3,
   "fields_total": 41
@@ -18,6 +18,43 @@
  "next_deadline": {
   "date": "2026-09-08",
   "item": "Soil & Bed Prep"
+ },
+ "next_lunar": {
+  "date": "2026-09-06",
+  "job": "td-trays-flower",
+  "part": "flower",
+  "constellation": "Gemini",
+  "quarter": 4,
+  "ascending": false
+ },
+ "harvest_season": {
+  "month": 9,
+  "count": 21,
+  "crops": [
+   "Brussels Sprouts",
+   "Carrots",
+   "Celery (stalk)",
+   "Collards",
+   "Cowpea (Southern Pea)",
+   "Cucumbers",
+   "Cutting Celery",
+   "Eggplant",
+   "Kale",
+   "Mustard",
+   "Peanuts",
+   "Pole Beans",
+   "Radishes",
+   "Spinach",
+   "Summer Squash/Zucchini",
+   "Sweet Potatoes",
+   "Tomatoes (Paste)",
+   "Tomatoes (Slicing)",
+   "Turnips",
+   "Watermelon",
+   "Winter Squash"
+  ],
+  "of_active": 134,
+  "source": "NC State AG-756-02, Days to Harvest"
  },
  "phase_progress": {
   "P0": {
@@ -47,8 +84,8 @@
   },
   "P5": {
    "done": 3,
-   "total": 13,
-   "pct": 23
+   "total": 15,
+   "pct": 20
   },
   "P6": {
    "done": 0,
