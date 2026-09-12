@@ -1,31 +1,31 @@
 {
- "generated_at": "2026-09-02T19:45-04:00",
+ "generated_at": "2026-09-12T10:50-04:00",
  "rollups": {
-  "decisions_resolved": 33,
-  "decisions_open": 10,
-  "constraints_total": 87,
-  "constraints_handled": 26,
-  "constraints_open": 61,
-  "crops_active": 237,
-  "crops_ruled_out": 19,
-  "plantings_total": 273,
-  "plantings_dated": 176,
-  "needs_total": 260,
-  "needs_have": 61,
+  "decisions_resolved": 54,
+  "decisions_open": 16,
+  "constraints_total": 94,
+  "constraints_handled": 27,
+  "constraints_open": 67,
+  "crops_active": 260,
+  "crops_ruled_out": 25,
+  "plantings_total": 280,
+  "plantings_dated": 171,
+  "needs_total": 281,
+  "needs_have": 62,
   "fields_measured": 3,
   "fields_total": 41
  },
  "next_deadline": {
-  "date": "2026-09-08",
+  "date": "2026-09-20",
   "item": "Soil & Bed Prep"
  },
  "next_lunar": {
-  "date": "2026-09-06",
-  "job": "td-trays-flower",
-  "part": "flower",
-  "constellation": "Gemini",
-  "quarter": 4,
-  "ascending": false
+  "date": "2026-09-21",
+  "job": "td-plant-garlic",
+  "part": "root",
+  "constellation": "Capricorn",
+  "quarter": 2,
+  "ascending": true
  },
  "harvest_season": {
   "month": 9,
@@ -53,7 +53,7 @@
    "Watermelon",
    "Winter Squash"
   ],
-  "of_active": 134,
+  "of_active": 133,
   "source": "NC State AG-756-02, Days to Harvest"
  },
  "phase_progress": {
@@ -64,38 +64,38 @@
   },
   "P1": {
    "done": 7,
-   "total": 17,
-   "pct": 41
+   "total": 16,
+   "pct": 44
   },
   "P2": {
    "done": 31,
-   "total": 73,
-   "pct": 42
+   "total": 79,
+   "pct": 39
   },
   "P3": {
-   "done": 10,
-   "total": 43,
-   "pct": 23
+   "done": 11,
+   "total": 54,
+   "pct": 20
   },
   "P4": {
    "done": 0,
-   "total": 8,
+   "total": 9,
    "pct": 0
   },
   "P5": {
    "done": 3,
-   "total": 15,
-   "pct": 20
+   "total": 16,
+   "pct": 19
   },
   "P6": {
    "done": 0,
-   "total": 21,
+   "total": 22,
    "pct": 0
   },
   "P7": {
    "done": 7,
-   "total": 41,
-   "pct": 17
+   "total": 44,
+   "pct": 16
   }
  },
  "note": "Big-picture snapshot from PocketBase. Counts only — the item/shopping list lives on the coordination page."
