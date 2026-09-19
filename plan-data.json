@@ -1,22 +1,22 @@
 {
- "generated_at": "2026-09-12T18:15-04:00",
+ "generated_at": "2026-09-19T03:45-04:00",
  "rollups": {
-  "decisions_resolved": 54,
+  "decisions_resolved": 63,
   "decisions_open": 16,
-  "constraints_total": 94,
+  "constraints_total": 96,
   "constraints_handled": 27,
-  "constraints_open": 67,
-  "crops_active": 260,
+  "constraints_open": 69,
+  "crops_active": 271,
   "crops_ruled_out": 25,
   "plantings_total": 281,
-  "plantings_dated": 171,
+  "plantings_dated": 169,
   "needs_total": 282,
   "needs_have": 62,
   "fields_measured": 3,
   "fields_total": 41
  },
  "next_deadline": {
-  "date": "2026-09-20",
+  "date": "2026-09-26",
   "item": "Soil & Bed Prep"
  },
  "next_lunar": {
@@ -53,7 +53,7 @@
    "Watermelon",
    "Winter Squash"
   ],
-  "of_active": 133,
+  "of_active": 134,
   "source": "NC State AG-756-02, Days to Harvest"
  },
  "phase_progress": {
