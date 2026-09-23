@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-09-23T13:12-04:00",
+ "generated_at": "2026-09-23T13:46-04:00",
  "rollups": {
-  "decisions_resolved": 65,
+  "decisions_resolved": 66,
   "decisions_open": 16,
-  "constraints_total": 99,
+  "constraints_total": 100,
   "constraints_handled": 27,
-  "constraints_open": 72,
+  "constraints_open": 73,
   "crops_active": 271,
   "crops_ruled_out": 25,
   "plantings_total": 281,
