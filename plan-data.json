@@ -1,22 +1,22 @@
 {
- "generated_at": "2026-09-23T13:46-04:00",
+ "generated_at": "2026-09-24T03:45-04:00",
  "rollups": {
-  "decisions_resolved": 66,
-  "decisions_open": 16,
+  "decisions_resolved": 68,
+  "decisions_open": 15,
   "constraints_total": 100,
-  "constraints_handled": 27,
-  "constraints_open": 73,
+  "constraints_handled": 28,
+  "constraints_open": 72,
   "crops_active": 271,
   "crops_ruled_out": 25,
   "plantings_total": 281,
   "plantings_dated": 169,
-  "needs_total": 295,
+  "needs_total": 298,
   "needs_have": 63,
-  "fields_measured": 3,
-  "fields_total": 42
+  "fields_measured": 67,
+  "fields_total": 106
  },
  "next_deadline": {
-  "date": "2026-09-26",
+  "date": "2026-10-01",
   "item": "Soil & Bed Prep"
  },
  "next_lunar": {
@@ -59,8 +59,8 @@
  "phase_progress": {
   "P0": {
    "done": 1,
-   "total": 9,
-   "pct": 11
+   "total": 10,
+   "pct": 10
   },
   "P1": {
    "done": 8,
@@ -74,12 +74,12 @@
   },
   "P3": {
    "done": 11,
-   "total": 58,
+   "total": 59,
    "pct": 19
   },
   "P4": {
    "done": 0,
-   "total": 9,
+   "total": 10,
    "pct": 0
   },
   "P5": {
