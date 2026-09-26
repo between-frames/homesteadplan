@@ -6,7 +6,6 @@
 <meta name="color-scheme" content="light">
 <title>Homestead Plan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #E4E2C9;
@@ -305,6 +304,84 @@
     .phase-card .ph-title { font-size: 15px; }
   }
 </style>
+<!-- ORGANTIC:START -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="organtic.css">
+<style id="organtic-plan">
+  /* The old palette names now point at Organtic tokens. */
+  :root{ color-scheme:light;
+    --paper:var(--sand); --card:#FFFFFF; --ink:var(--char); --forest:var(--pine); --soil:var(--muted);
+    --moss:#1F6B45; --sage:#A8CBB7; --rust:#C4601C; --brick:#9E2A5A; --wheat:var(--marigold); --line:1px; }
+  html,body{background:var(--sand);}
+  body{font-family:var(--font-sans); font-size:17px; line-height:1.6; color:var(--body);}
+  body *:not(h1):not(h2):not(h3){font-family:inherit !important;}
+  h1,h2,h3,body .ph-title,body .tc-name,body .mh-title,body .needs-summary,body .parallel-note strong{font-family:var(--font-display) !important; font-weight:600; letter-spacing:-.01em;}
+  *{text-transform:none !important;}
+  .meta-label,.node .label,header.top .eyebrow,.modal-section-title{text-transform:uppercase !important; letter-spacing:1.5px; font-size:12px !important; font-weight:700;}
+  .hazard-bar{display:none;}
+  header.top{background:var(--pine); color:var(--on-deep); border-bottom:0; padding:40px 18px 34px;}
+  header.top .eyebrow{color:var(--on-deep); border:1.5px solid rgba(255,250,240,.5); border-radius:9999px; padding:4px 12px;}
+  header.top h1{font-size:clamp(36px,9vw,56px); letter-spacing:-1.5px;}
+  header.top p.sub{color:var(--on-deep); opacity:.88; font-size:17px;}
+  .topnav{background:var(--sand-soft); border-bottom:1px solid var(--hairline);}
+  .topnav a{color:var(--char); font-size:15px; font-weight:600; border-right:1px solid var(--hairline); padding:13px 16px; min-height:44px;}
+  .topnav a:hover{background:var(--sand-strong);}
+  .topnav a.active{background:var(--primary); color:var(--on-primary);}
+  main{max-width:760px;}
+  section.block{margin-top:64px;}
+  section.block h2{background:none; color:var(--char); display:block; padding:0; font-size:36px; line-height:1.15; margin:0 0 20px;}
+  section.block p{font-size:16px; line-height:1.55;}
+  section.block h2 + p, .block > p{font-size:17px; color:var(--body);}
+  .phase-card,.track-card,.map-frame,.need-row{border:1px solid var(--hairline); border-radius:16px; box-shadow:none; background:#FFFFFF;}
+  .phase-card{padding:20px;}
+  .phase-card:hover{box-shadow:var(--shadow-lift); transform:translateY(-2px);}
+  .phase-card .ph-title{font-size:20px; line-height:1.3;}
+  .phase-card p,.phase-card .ph-teaser{font-size:15px; line-height:1.55; color:var(--body);}
+  .phase-card .ph-status,.track-card .tc-status,.modal-head .mh-status{font-size:13px; font-weight:600; border-radius:9999px; border:1.5px solid; padding:3px 11px;}
+  .st-done{background:transparent !important; color:var(--good) !important; border-color:var(--good) !important;}
+  .st-active{background:transparent !important; color:var(--char) !important; border-color:var(--char) !important;}
+  .st-not{background:transparent !important; color:var(--muted) !important; border-color:var(--hairline) !important;}
+  .status-upcoming .tc-status{background:transparent; color:var(--char); border-color:var(--char);}
+  .status-waiting .tc-status{background:transparent; color:var(--caution); border-color:var(--caution);}
+  .status-notstarted .tc-status{background:transparent; color:var(--muted); border-color:var(--hairline);}
+  .track-card{padding:16px 18px;}
+  .track-card .tc-name{font-size:17px;}
+  .track-card .tc-what{font-size:15px;} .track-card .tc-timing{font-size:14px;}
+  .track-card .tc-marker{border:1.5px solid var(--char); border-radius:3px;}
+  .track-card .tc-link,.phase-card a,.modal-body .m-note a{color:var(--char); font-size:15px; text-decoration-color:var(--madder); text-underline-offset:3px;}
+  .expand-toggle{font-size:15px; font-weight:600; border:1px solid var(--hairline); border-radius:12px; padding:0 16px; min-height:44px; background:var(--sand);}
+  .parallel-note{background:var(--pine); border:0; border-radius:16px; box-shadow:none; font-size:15px;}
+  .meta-body{font-size:15px;} .meta-row{border-left-width:3px;}
+  .meta-row.powersup{border-radius:12px; box-shadow:none; background:#FBEFE3;}
+  .progress-item .pi-top{font-size:15px; font-weight:600; color:var(--char);}
+  .progress-item .pi-top .pct{color:var(--char); font-variant-numeric:tabular-nums;}
+  .bar-track{height:10px; border:0; border-radius:5px; background:var(--sand-strong); overflow:hidden;}
+  .bar-fill{background:var(--pine); border-radius:5px;}
+  .modal-panel{border:0; border-radius:24px; box-shadow:var(--shadow-lift);}
+  .modal-head{background:var(--pine); border-bottom:0; border-radius:24px 24px 0 0;}
+  .modal-head .mh-title{font-size:22px;}
+  .modal-close{background:var(--sand); color:var(--char); border:0; border-radius:12px; width:44px; height:44px; font-size:18px;}
+  .modal-body .m-note{font-size:16px;}
+  .modal-section-title{background:none; color:var(--muted); padding:0;}
+  .needs-summary{background:var(--marigold); color:var(--on-bright); border-radius:12px;}
+  .node .label{font-size:12px !important;}
+  footer, .footer{font-size:14px; background:var(--sand-soft) !important; color:var(--muted) !important; border-top:1px solid var(--hairline) !important;}
+  footer a, .footer a{color:var(--char) !important;}
+  a:focus-visible,button:focus-visible,summary:focus-visible{outline:none; box-shadow:var(--focus-ring); border-radius:8px;}
+  /* The crop calendar block is generated with its own inline colours; map them from outside. */
+  .cropcal-embed{font-family:var(--font-sans) !important; font-size:15px;}
+  .cropcal-embed *{border-color:var(--hairline) !important;}
+  .cropcal-embed .cc-legend{font-size:14px !important;}
+  .cropcal-embed .cc-sec{font-size:16px !important; font-weight:600;}
+  .cropcal-embed [style*="background:#EDEBD4"]{background:var(--sand-card) !important;}
+  .cropcal-embed [style*="background:#E3E1C6"]{background:var(--sand-strong) !important;}
+  .cropcal-embed [style*="background:#B9C98F"]{background:#A8CBB7 !important;}
+  .cropcal-embed [style*="color:#6E5A1F"]{color:#7A5A12 !important;}
+  .cropcal-embed [style*="color:#2E3B23"]{color:var(--char) !important;}
+  .cropcal-embed [style*="color:#8C3B32"]{color:#9E2A5A !important;}
+  @media (prefers-reduced-motion:reduce){ .phase-card:hover{transform:none;} }
+</style>
+<!-- ORGANTIC:END -->
 </head>
 <body>
 

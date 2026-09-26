@@ -14,6 +14,7 @@ echo "[$(date '+%Y-%m-%d %H:%M')] -> regenerating the Crop Calendar section into
 python3 "/Users/kenny/Documents/claude projects/Homestead-os/scripts/gen_crop_calendar.py" \
   "/Users/kenny/Documents/claude projects/Pocketbase/pb_data/data.db" \
   --embed="$PLAN/index.html" || echo "   (crop-calendar regen skipped)"
+cp "/Users/kenny/Documents/claude projects/Homestead-os/public/organtic.css" "$PLAN/organtic.css"  # Organtic, 2026-09-26
 echo "[$(date '+%Y-%m-%d %H:%M')] -> scrub check before anything leaves the machine"
 # THIS PAGE IS PUBLIC. On 2026-08-15 a scrubbed parcel-map-preview.html was
 # silently left behind and the old version with the street address stayed live.
@@ -63,7 +64,7 @@ echo "[$(date '+%Y-%m-%d %H:%M')] -> git commit + push"
 # with the street address stayed live. Stage everything tracked instead, so a
 # change to any published file cannot be quietly left behind.
 git add -u
-git add plan-data.json index.html scripts/export_plan.py publish-plan.sh parcel-map-preview.html 2>/dev/null || true
+git add organtic.css plan-data.json index.html scripts/export_plan.py publish-plan.sh parcel-map-preview.html 2>/dev/null || true
 git commit -m "Plan: refresh live DB snapshot ($(date '+%Y-%m-%d %H:%M'))" || echo "   (nothing to commit)"
 git push
 echo "[$(date '+%Y-%m-%d %H:%M')] done — Cloudflare Pages will rebuild from the push"
