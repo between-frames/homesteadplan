@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-25T09:30-04:00",
+ "generated_at": "2026-09-25T21:45-04:00",
  "rollups": {
   "decisions_resolved": 68,
   "decisions_open": 15,
@@ -11,7 +11,7 @@
   "plantings_total": 281,
   "plantings_dated": 169,
   "needs_total": 298,
-  "needs_have": 63,
+  "needs_have": 65,
   "fields_measured": 67,
   "fields_total": 106
  },
@@ -63,14 +63,14 @@
    "pct": 10
   },
   "P1": {
-   "done": 8,
+   "done": 9,
    "total": 18,
-   "pct": 44
+   "pct": 50
   },
   "P2": {
-   "done": 31,
+   "done": 32,
    "total": 83,
-   "pct": 37
+   "pct": 39
   },
   "P3": {
    "done": 11,
